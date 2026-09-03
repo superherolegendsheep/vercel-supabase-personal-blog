@@ -321,7 +321,12 @@ async function loadLikes(postId) {
       button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
     }
   } catch {
-    state.likes[postId] = { count: 0, liked: false };
+    state.likes[postId] = localLikeStatus(postId);
+    const button = document.querySelector(`[data-like="${postId}"]`);
+    if (button) {
+      button.classList.toggle("active", state.likes[postId].liked);
+      button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
+    }
   }
 }
 
@@ -347,10 +352,31 @@ async function toggleLike(postId) {
     button?.classList.toggle("active", state.likes[postId].liked);
     if (button) button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
   } catch {
-    if (message) message.textContent = "喜欢功能暂时没有连接成功，请检查 Vercel 环境变量和 Supabase 的 likes 表。";
+    state.likes[postId] = toggleLocalLike(postId);
+    button?.classList.toggle("active", state.likes[postId].liked);
+    if (button) button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
+    if (message) message.textContent = "已先记录在当前浏览器里。若要在 Supabase 后台看到喜欢数，请检查 Vercel 环境变量和 likes 表。";
   } finally {
     button?.removeAttribute("disabled");
   }
+}
+
+function localLikeStatus(postId) {
+  return {
+    count: Number(localStorage.getItem(`likes:${postId}:count`) || 0),
+    liked: localStorage.getItem(`likes:${postId}:liked`) === "yes"
+  };
+}
+
+function toggleLocalLike(postId) {
+  const current = localLikeStatus(postId);
+  const next = {
+    liked: !current.liked,
+    count: Math.max(0, current.count + (current.liked ? -1 : 1))
+  };
+  localStorage.setItem(`likes:${postId}:liked`, next.liked ? "yes" : "no");
+  localStorage.setItem(`likes:${postId}:count`, String(next.count));
+  return next;
 }
 
 function render() {
