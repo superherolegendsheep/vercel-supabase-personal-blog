@@ -10,5 +10,17 @@
     "summary": "无内鬼，来点欧明看过的楼组",
     "file": "Spinoff2.html",
     "type": "html"
+  },
+  {
+    "id": "lu-yuan-shuangfeng",
+    "title": "双锋到底是咋回事啊",
+    "date": "2026-09-03",
+    "tags": ["论坛体"],
+    "collection": "lu-yuan",
+    "order": 1,
+    "visibility": "public",
+    "summary": "路远作品集论坛体存档",
+    "file": "lu-yuan-shuangfeng.html",
+    "type": "html"
   }
 ]

@@ -167,7 +167,7 @@ function draftPost() {
     order: Number($("#post-order").value || 1),
     visibility: $("#post-visibility").value,
     summary: $("#post-summary").value,
-    file: `${id}.html`,
+    file: $("#post-file").value.trim() || `${id}.html`,
     type: "html"
   };
 }
@@ -217,6 +217,7 @@ function renderPostManager() {
             <p>${escapeHtml(post.summary || "")}</p>
             <small>${escapeHtml(post.collection || "未归档")} · 顺序 ${post.order || 1} · ${post.visibility}</small>
           </div>
+          <label>顺序<input type="number" min="1" value="${post.order || 1}" data-order-post="${post.id}" /></label>
           <button data-delete-post="${post.id}">删除</button>
           <button data-private-post="${post.id}">${post.visibility === "private" ? "设为公开" : "仅自己可见"}</button>
         </article>
@@ -228,6 +229,14 @@ function renderPostManager() {
       posts = posts.filter((post) => post.id !== button.dataset.deletePost);
       renderPostManager();
       renderTagManager();
+    });
+  });
+  document.querySelectorAll("[data-order-post]").forEach((input) => {
+    input.addEventListener("change", () => {
+      const post = posts.find((item) => item.id === input.dataset.orderPost);
+      post.order = Number(input.value || 1);
+      posts.sort((a, b) => String(a.collection).localeCompare(String(b.collection)) || Number(a.order || 9999) - Number(b.order || 9999));
+      renderPostManager();
     });
   });
   document.querySelectorAll("[data-private-post]").forEach((button) => {

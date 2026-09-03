@@ -115,19 +115,7 @@ function renderHome() {
         <p>${escapeHtml(activeCollection?.summary || state.config.profile.content)}</p>
       </header>
 
-      <section class="collection-strip">
-        ${(state.config.collections || [])
-          .map(
-            (item) => `
-              <button class="collection-card" data-collection="${item.id}">
-                ${item.cover ? `<img src="${item.cover}" alt="" />` : ""}
-                <strong>${escapeHtml(item.title)}</strong>
-                <span>${escapeHtml(item.summary || "")}</span>
-              </button>
-            `
-          )
-          .join("")}
-      </section>
+      ${state.collection ? "" : renderCollectionStrip()}
 
       ${
         state.collection
@@ -177,9 +165,26 @@ function renderPostCard(post) {
   `;
 }
 
+function renderCollectionStrip() {
+  return `
+    <section class="collection-strip">
+      ${(state.config.collections || [])
+        .map(
+          (item) => `
+            <button class="collection-card" data-collection="${item.id}">
+              ${item.cover ? `<img src="${item.cover}" alt="" />` : ""}
+              <strong>${escapeHtml(item.title)}</strong>
+              <span>${escapeHtml(item.summary || "")}</span>
+            </button>
+          `
+        )
+        .join("")}
+    </section>
+  `;
+}
+
 function renderAbout() {
   const profile = state.config.profile;
-  const collections = state.config.collections || [];
   return `
     <main class="content">
       <article class="about-page">
@@ -189,19 +194,6 @@ function renderAbout() {
           ${escapeHtml(profile.about).split("\n").map((line) => `<p>${line || "&nbsp;"}</p>`).join("")}
         </div>
       </article>
-      <section class="collection-strip">
-        ${collections
-          .map(
-            (item) => `
-              <button class="collection-card" data-collection="${item.id}">
-                ${item.cover ? `<img src="${item.cover}" alt="" />` : ""}
-                <strong>${escapeHtml(item.title)}</strong>
-                <span>${escapeHtml(item.summary || "")}</span>
-              </button>
-            `
-          )
-          .join("")}
-      </section>
     </main>
   `;
 }

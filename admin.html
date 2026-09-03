@@ -63,6 +63,7 @@
           <label>标签<input id="post-tags" placeholder="论坛体, 短篇" /></label>
           <label>归属作品集<select id="post-collection"></select></label>
           <label>作品集内顺序<input id="post-order" type="number" min="1" value="1" /></label>
+          <label>已有 HTML 文件名<input id="post-file" placeholder="example.html" /></label>
           <label>可见性<select id="post-visibility"><option value="public">公开</option><option value="private">仅自己可见</option></select></label>
         </div>
         <label class="wide-label">摘要<textarea id="post-summary" rows="3"></textarea></label>
@@ -97,6 +98,7 @@
             <h3>导出</h3>
             <button id="download-post-html" class="primary-button">下载文章 HTML</button>
             <button id="download-posts-json" class="ghost-button">下载 posts.json</button>
+            <p class="muted">如果你已有 HTML 文件，把文件放进 public/posts，再在“已有 HTML 文件名”里填写完整文件名，然后只下载 posts.json。</p>
           </section>
         </div>
       </section>
