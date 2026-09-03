@@ -7,7 +7,8 @@ const state = {
   tag: "",
   collection: "",
   view: "home",
-  currentPost: null
+  currentPost: null,
+  readerFullscreen: false
 };
 
 const app = document.querySelector("#app");
@@ -101,10 +102,13 @@ function renderHome() {
   const visible = posts.slice((state.page - 1) * state.perPage, state.page * state.perPage);
   const allTags = [...new Set(state.posts.flatMap((post) => post.tags || []))].sort();
   const activeCollection = getCollection(state.collection);
+  const headStyle = activeCollection?.cover
+    ? ` style="background-image: linear-gradient(90deg, rgba(251,251,248,0.92), rgba(251,251,248,0.64)), url('${activeCollection.cover}')"`
+    : "";
 
   return `
     <main class="content">
-      <header class="page-head">
+      <header class="page-head ${activeCollection?.cover ? "collection-head has-cover" : ""}"${headStyle}>
         <p class="eyebrow">${escapeHtml(site.subtitle)}</p>
         <h2>${activeCollection ? escapeHtml(activeCollection.title) : escapeHtml(site.title)}</h2>
         <p>${escapeHtml(activeCollection?.summary || state.config.profile.content)}</p>
@@ -124,10 +128,14 @@ function renderHome() {
           .join("")}
       </section>
 
-      <div class="filters">
-        <input id="search" value="${escapeHtml(state.query)}" placeholder="搜索标题、标签、摘要" />
-        <button data-clear>全部文章</button>
-      </div>
+      ${
+        state.collection
+          ? `<button class="ghost-button collection-return" data-clear>返回全部文章</button>`
+          : `<div class="filters">
+              <input id="search" value="${escapeHtml(state.query)}" placeholder="搜索标题、标签、摘要" />
+              <button data-clear>全部文章</button>
+            </div>`
+      }
 
       <div class="tag-row">
         ${allTags
@@ -157,10 +165,11 @@ function renderHome() {
 
 function renderPostCard(post) {
   const collection = getCollection(post.collection);
+  const titleClass = post.title.length > 22 ? "title-long" : post.title.length < 9 ? "title-short" : "";
   return `
     <article class="post-card" data-post="${post.id}" tabindex="0">
       <p class="date">${escapeHtml(post.date)}${collection ? ` · ${escapeHtml(collection.title)}` : ""}</p>
-      <h3>${escapeHtml(post.title)}</h3>
+      <h3 class="${titleClass}">${escapeHtml(post.title)}</h3>
       <p>${escapeHtml(post.summary || "")}</p>
       <div class="tag-row">${(post.tags || []).map((tag) => `<span class="tag"># ${escapeHtml(tag)}</span>`).join("")}</div>
     </article>
@@ -200,7 +209,7 @@ function renderPost() {
   const post = state.currentPost;
   const collection = getCollection(post.collection);
   return `
-    <main class="content article-view">
+    <main class="content article-view ${state.readerFullscreen ? "reader-fullscreen" : ""}">
       <button class="ghost-button" data-action="home">返回目录</button>
       <article class="reader">
         <header class="article-head">
@@ -210,7 +219,12 @@ function renderPost() {
         </header>
         ${
           post.type === "html"
-            ? `<iframe class="html-frame" src="/posts/${encodeURIComponent(post.file)}" title="${escapeHtml(post.title)}"></iframe>`
+            ? `<div class="html-reader">
+                <button class="reader-toggle" data-reader-fullscreen>
+                  ${state.readerFullscreen ? "退出全屏" : "全屏阅读"}
+                </button>
+                <iframe class="html-frame" src="/posts/${encodeURIComponent(post.file)}" title="${escapeHtml(post.title)}"></iframe>
+              </div>`
             : `<section class="article-body" data-markdown="${escapeHtml(post.file)}"></section>`
         }
         <button class="like-button" data-like="${post.id}">喜欢 <span>${getLikes(post.id)}</span></button>
@@ -319,7 +333,8 @@ function bindEvents() {
   document.querySelectorAll("[data-action='home']").forEach((button) => {
     button.addEventListener("click", () => {
       state.view = "home";
-      state.currentPost = null;
+    state.currentPost = null;
+      state.readerFullscreen = false;
       render();
     });
   });
@@ -331,7 +346,9 @@ function bindEvents() {
   });
   document.querySelectorAll("[data-collection]").forEach((button) => {
     button.addEventListener("click", () => {
-      state.collection = button.dataset.collection;
+      state.collection = state.collection === button.dataset.collection ? "" : button.dataset.collection;
+      state.query = "";
+      state.tag = "";
       state.view = "home";
       state.page = 1;
       render();
@@ -366,14 +383,19 @@ function bindEvents() {
     render();
   });
   document.querySelector("[data-clear]")?.addEventListener("click", () => {
-    state.query = "";
-    state.tag = "";
-    state.collection = "";
-    state.page = 1;
-    render();
+      state.query = "";
+      state.tag = "";
+      state.collection = "";
+      state.readerFullscreen = false;
+      state.page = 1;
+      render();
   });
   document.querySelector("[data-like]")?.addEventListener("click", (event) => {
     likePost(event.currentTarget.dataset.like);
+  });
+  document.querySelector("[data-reader-fullscreen]")?.addEventListener("click", () => {
+    state.readerFullscreen = !state.readerFullscreen;
+    render();
   });
   document.querySelector("#comment-form")?.addEventListener("submit", submitComment);
 }
@@ -381,6 +403,7 @@ function bindEvents() {
 function openPost(id) {
   state.currentPost = state.posts.find((post) => post.id === id);
   state.view = "post";
+  state.readerFullscreen = false;
   render();
 }
 
