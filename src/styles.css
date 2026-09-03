@@ -16,7 +16,7 @@
 
 body {
   margin: 0;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
   font-size: 18px;
   color: var(--ink);
   background:
@@ -59,6 +59,7 @@ input,
 textarea,
 select {
   font: inherit;
+  max-width: 100%;
 }
 
 button {
@@ -80,7 +81,7 @@ button {
   margin: 22px 0 6px;
   font-size: 34px;
   line-height: 1.16;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
@@ -155,7 +156,7 @@ button {
   background: rgba(255, 255, 255, 0.46);
   color: var(--ink);
   padding: 0 14px;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .wide-button {
@@ -199,7 +200,7 @@ button {
 .sidebar-section h2 {
   font-size: 16px;
   color: var(--muted);
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
   font-weight: 500;
 }
 
@@ -263,7 +264,7 @@ button {
   font-size: 15px;
   letter-spacing: 0;
   text-transform: uppercase;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .page-head h2,
@@ -336,7 +337,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   margin: 18px 0;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .filters input,
@@ -358,7 +359,7 @@ button {
   gap: 8px;
   flex-wrap: wrap;
   margin: 12px 0;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .tag {
@@ -456,7 +457,7 @@ button {
   color: var(--ink);
   background: rgba(251, 251, 248, 0.88);
   box-shadow: 0 10px 30px rgba(35, 45, 50, 0.1);
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .html-frame {
@@ -528,7 +529,7 @@ button {
   border-radius: 999px;
   color: white;
   background: var(--accent);
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
   font-size: 17px;
 }
 
@@ -559,7 +560,7 @@ button {
   color: var(--muted);
   border-top: 1px solid var(--line);
   padding-top: 16px;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
   font-size: 15px;
 }
 
@@ -608,7 +609,7 @@ button {
   padding: 0 12px;
   color: var(--primary);
   background: rgba(255, 255, 255, 0.58);
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .comment-actions button.active {
@@ -653,7 +654,7 @@ button {
 
 .admin-body {
   background: var(--wash);
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
 }
 
 .admin-shell {
@@ -805,7 +806,7 @@ button {
   padding: 0 20px;
   color: #6b1f25;
   background: #fff8f4;
-  font-family: "Agency FB", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Agency FB", "AgencyFB-Reg", "Arial Narrow", "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "楷体", serif;
   font-size: 18px;
 }
 
@@ -893,24 +894,251 @@ label,
 
 @media (max-width: 820px) {
   body {
-    background: var(--paper);
+    min-width: 0;
+    font-size: 17px;
+    line-height: 1.62;
+    background:
+      linear-gradient(180deg, rgba(227, 233, 230, 0.92) 0, rgba(251, 251, 248, 0.98) 280px),
+      var(--paper);
   }
 
   .site-shell {
     grid-template-columns: 1fr;
-    margin: 22px auto;
-    width: min(100vw - 24px, 680px);
+    gap: 18px;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
   }
 
   .profile-card {
     position: static;
     min-height: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 10px 18px;
+    align-items: start;
+  }
+
+  .profile-home {
+    grid-row: span 3;
+  }
+
+  .avatar {
+    width: 76px;
+    height: 76px;
+  }
+
+  .profile-caption {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .site-name-link {
+    width: 100%;
+    margin: 4px 0 0;
+    font-size: 28px;
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .profile-facts,
+  .sidebar-section {
+    grid-column: 1 / -1;
+  }
+
+  .profile-facts {
+    margin: 18px 0 0;
+    font-size: 16px;
+  }
+
+  .profile-facts div {
+    grid-template-columns: 58px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .about-note {
+    margin: 18px 0 0;
+    padding: 14px 0;
+  }
+
+  .about-note p {
+    line-height: 1.62;
+  }
+
+  .content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .page-head {
+    margin: 4px 0 18px;
+    padding-bottom: 18px;
+  }
+
+  .collection-head {
+    padding: 22px;
+  }
+
+  .collection-head.has-cover {
+    min-height: 180px;
   }
 
   .page-head h2,
   .about-page h2,
   .article-head h2 {
-    font-size: 34px;
+    font-size: clamp(32px, 13vw, 46px);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .page-head p:last-child {
+    font-size: 18px;
+    line-height: 1.62;
+  }
+
+  .collection-strip {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .collection-card {
+    min-height: 120px;
+    padding: 16px;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .filters input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .tag-row {
+    gap: 7px;
+  }
+
+  .tag {
+    min-height: 32px;
+    font-size: 15px;
+  }
+
+  .post-grid {
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .post-card {
+    min-height: 0;
+    padding: 20px;
+  }
+
+  .post-card h3,
+  .post-card h3.title-long,
+  .post-card h3.title-short {
+    max-width: 100%;
+    font-size: clamp(24px, 8vw, 31px);
+    line-height: 1.28;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .post-card p:not(.date) {
+    line-height: 1.62;
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .pager span {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .pager input {
+    width: 100%;
+  }
+
+  .reader,
+  .comments {
+    margin-top: 14px;
+    padding: 20px;
+  }
+
+  .article-head p {
+    line-height: 1.62;
+  }
+
+  .html-frame {
+    min-height: 68vh;
+  }
+
+  .reader-toggle {
+    top: 10px;
+    right: 10px;
+  }
+
+  .article-body {
+    font-size: 18px;
+    line-height: 1.78;
+  }
+
+  .comment-form input,
+  .comment-form textarea {
+    font-size: 17px;
+  }
+
+  .comment-item {
+    font-size: 17px;
+  }
+
+  .reply-list {
+    margin-left: 6px;
+    padding-left: 12px;
+  }
+
+  .site-notice {
+    padding: 16px;
+  }
+
+  .notice-panel {
+    padding: 22px;
+  }
+
+  .notice-panel p {
+    font-size: 18px;
+    line-height: 1.65;
+  }
+
+  .admin-shell {
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+
+  .admin-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .admin-panel {
+    padding: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 
   .preview-layout,
@@ -923,5 +1151,58 @@ label,
   .file-pill {
     width: fit-content;
     white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-shell {
+    padding: 10px;
+  }
+
+  .profile-card,
+  .reader,
+  .comments,
+  .admin-panel,
+  .post-card,
+  .collection-card {
+    border-radius: 3px;
+    box-shadow: 0 10px 34px rgba(35, 45, 50, 0.06);
+  }
+
+  .profile-card {
+    grid-template-columns: 64px 1fr;
+    padding: 16px;
+    gap: 8px 14px;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .site-name-link {
+    font-size: 24px;
+  }
+
+  .page-head h2,
+  .about-page h2,
+  .article-head h2 {
+    font-size: clamp(30px, 12vw, 40px);
+  }
+
+  .post-card {
+    padding: 18px;
+  }
+
+  .reader,
+  .comments {
+    padding: 18px;
+  }
+
+  .ghost-button,
+  .primary-button,
+  .filters button,
+  .pager button {
+    width: 100%;
   }
 }
