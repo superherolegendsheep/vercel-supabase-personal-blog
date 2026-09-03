@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>番外2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #2c3e50;
+            padding: 30px 20px;
+        }
+        .douban-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .navbar {
+            background: #fff;
+            border-radius: 8px 8px 0 0;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 13px;
+            border-bottom: 1px solid #eaeef2;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: #2e8b57;
+        }
+        .nav-logo span {
+            background: #2e8b57;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+        .nav-right {
+            margin-left: auto;
+            color: #999;
+        }
+        .two-columns {
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+        }
+        .main-content {
+            flex: 2.2;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .post-header {
+            padding: 20px 24px 12px 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .post-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e2a3e;
+            margin-bottom: 12px;
+        }
+        .post-meta {
+            font-size: 12px;
+            color: #8a9aa8;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .author-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            object-fit: cover;
+        }
+        .post-body {
+            font-size: 15px;
+            color: #1e2f3e;
+            padding: 8px 0 12px 0;
+            line-height: 1.6;
+        }
+        .floor-list {
+            padding: 0 24px;
+        }
+        .comment-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f2f5;
+            display: flex;
+            gap: 14px;
+            position: relative;
+        }
+        .comment-avatar {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #e4e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .comment-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .comment-info {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .comment-author {
+            font-weight: 600;
+            color: #1c2a42;
+            font-size: 14px;
+        }
+        .comment-floor {
+            font-size: 11px;
+            color: #8b9aab;
+            background: #f2f4f6;
+            padding: 2px 6px;
+            border-radius: 20px;
+        }
+	.reply-quote {
+    	    background-color: #f6f8fa;
+            border-left: 4px solid #2e8b57;
+            padding: 12px 16px;
+            margin: 12px 0 12px 0;
+            font-size: 14px;
+            color: #2c3e50;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            max-width: 100%;
+            width: 100%;
+            display: block;
+            line-height: 1.65;
+            overflow-wrap: anywhere;
+	}
+
+	.reply-quote .quote-meta {
+            display: block;
+            font-size: 13px;
+            color: #8a9aa8;
+            margin-bottom: 8px;
+            font-weight: 500;
+	}
+
+	.reply-quote .quote-content {
+            font-style: normal;
+            line-height: 1.65;
+            color: #2c3e50;
+	}
+
+        .comment-text {
+            font-size: 14.5px;
+            color: #2c3e4e;
+            margin: 10px 0 12px 0;
+            line-height: 1.65;
+            word-break: normal;
+            overflow-wrap: anywhere;
+            max-width: 100%;
+        }
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .like-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #dfe5ea;
+            background: #f7f9fb;
+            color: #657483;
+            border-radius: 18px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.12s;
+        }
+        .like-btn:hover {
+            background: #edf7f1;
+            border-color: #9bc7ad;
+            color: #2e8b57;
+            transform: translateY(-1px);
+        }
+        .like-btn.liked {
+            background: #e6f4ec;
+            border-color: #2e8b57;
+            color: #2e8b57;
+            font-weight: 600;
+        }
+        .system-badge {
+            background: #e9ecef;
+            color: #6c757d;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+        }
+        .notice-item {
+            background: #fff8e8;
+            border-left: 4px solid #d79b27;
+        }
+        .notice-item .comment-text {
+            color: #73510f;
+            font-weight: 600;
+        }
+        .pagination {
+            padding: 20px 24px;
+            background: #fff;
+            border-top: 1px solid #f0f2f5;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            padding: 6px 12px;
+            background: #f6f7f9;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            border: none;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .page-btn:hover {
+            background-color: #e0e3e8;
+        }
+        .page-btn.active {
+            background: #2e8b57;
+            color: white;
+        }
+        .page-btn.active:hover {
+            background: #236b45;
+        }
+        .info-bar {
+            font-size: 12px;
+            color: #6c7e94;
+            margin-left: 12px;
+        }
+        .reply-composer {
+            padding: 18px 24px 22px;
+            border-top: 1px solid #edf0f2;
+            background: #fbfcfd;
+        }
+        .reply-composer-title {
+            font-weight: 600;
+            color: #1c2a42;
+            margin-bottom: 12px;
+        }
+        .avatar-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-height: 174px;
+            overflow-y: auto;
+            padding: 2px 2px 6px;
+            margin-bottom: 12px;
+        }
+        .avatar-choice {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 auto;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            padding: 0;
+            overflow: hidden;
+            cursor: pointer;
+            background: #fff;
+            transition: border-color 0.2s, transform 0.12s, box-shadow 0.2s;
+        }
+        .avatar-choice:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .avatar-choice.selected {
+            border-color: #2e8b57;
+            box-shadow: 0 0 0 3px rgba(46,139,87,0.14);
+        }
+        .avatar-choice img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .composer-tools {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .composer-tools input {
+            width: 96px;
+            padding: 7px 9px;
+            border: 1px solid #d8e0e6;
+            border-radius: 6px;
+            cursor: text;
+        }
+        .composer-tools input:focus,
+        .reply-input:focus {
+            outline: none;
+            border-color: #2e8b57;
+            box-shadow: 0 0 0 3px rgba(46,139,87,0.12);
+        }
+        .tool-btn,
+        .send-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 12px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.12s;
+        }
+        .tool-btn {
+            background: #eef2f5;
+            color: #566575;
+        }
+        .tool-btn:hover {
+            background: #dfe7ec;
+            transform: translateY(-1px);
+        }
+        .reply-input {
+            width: 100%;
+            min-height: 92px;
+            resize: vertical;
+            padding: 10px 12px;
+            border: 1px solid #d8e0e6;
+            border-radius: 8px;
+            font: inherit;
+            line-height: 1.6;
+            cursor: text;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .reply-input:hover {
+            border-color: #aebbc6;
+        }
+        .composer-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .composer-hint {
+            font-size: 12px;
+            color: #8a9aa8;
+        }
+        .send-btn {
+            background: #2e8b57;
+            color: white;
+            min-width: 86px;
+        }
+        .send-btn:hover {
+            background: #236b45;
+            transform: translateY(-1px);
+        }
+        .sidebar {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 20px;
+        }
+        .group-banner {
+            background: #2e8b57;
+            padding: 20px;
+            color: white;
+        }
+        .group-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .intro-card {
+            padding: 18px 20px;
+        }
+        .intro-title {
+            font-weight: 600;
+            border-left: 3px solid #2e8b57;
+            padding-left: 10px;
+            margin: 16px 0 12px 0;
+        }
+        .intro-text {
+            font-size: 13px;
+            color: #4a5a6e;
+            line-height: 1.55;
+        }
+        .btn-join {
+            display: block;
+            background: #2e8b57;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            border-radius: 24px;
+            margin-top: 16px;
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-join:hover {
+            background: #236b45;
+            transform: scale(0.98);
+        }
+        @media (max-width: 780px) {
+            .two-columns { flex-direction: column; }
+            .main-content { width: 100%; }
+            .sidebar { position: static; order: -1; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="douban-container">
+    <div class="navbar">
+        <div class="nav-logo">豆瓣<span>讨论小组</span></div>
+    </div>
+
+    <div class="two-columns">
+        <div class="main-content">
+            <div class="post-header" id="threadQuestion">
+                <div class="post-title">老张同志到底是咋回事儿啊</div>
+                <div class="post-meta">
+                    <div style="display: flex; align-items: center;">
+                        <img class="author-avatar" src="https://loremflickr.com/96/96/tea,book,window?lock=9999" style="width:36px;height:36px; border-radius:50%;">
+                        <span><strong>匿名</strong> · 楼主</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p>如题，楼主是上海某单位的，经常看到🕊同志开着骚包的珍珠粉白沃尔沃在门口出现，特别高调。换做别人估计早就飞升PPT星球了，但他咋还活着啊！？跪求懂行的大佬解释一下。</p>
+                </div>
+            </div>
+            <div id="commentsContainer" class="floor-list"></div>
+            <div id="paginationContainer" class="pagination"></div>
+        </div>
+
+        <div class="sidebar">
+            <div class="group-banner">
+                <div class="group-name">脆皮肠生态观察站</div>
+                <div class="group-meta">去严肃化看待江湖风云</div>
+            </div>
+            <div class="intro-card">
+                <div class="intro-title">🍜 食用说明</div>
+                <div class="intro-text">
+                    • 所有论坛皆建议搭配《我想要占据你》食用<br>
+                    • 网管大人小孩子不懂事瞎讨论着玩的<br>
+                    • 为《半只橙子》的番外 也可以直接阅读<br>
+                </div>
+                <div class="intro-title">📌 组规摘要</div>
+                <ul style="margin-left:20px; color:#5a6e7c; font-size:12px;">
+                    <li>🕊=鸽子=张溟安=上海</li>
+                    <li>🌊=浪花=老花=MONOGRAM=赵临渊=北京</li>
+                    <li>⛰=喜马拉雅=谈景山</li>
+                    <li>🌙=谢敏飞</li>
+                    <li>🍄=方君其</li>
+                    <li>🍊=陈晨</li>
+                    <li>🍋、☀皆为不重要人物</li>
+		</ul>
+                <div class="intro-title">⚠ 阅读警告</div>
+                <ul style="margin-left:20px; color:#5a6e7c; font-size:12px;">
+                    <li><strong>原创角色</strong></li>
+                    <li><strong>骨科</strong></li>
+                </ul>
+                <a href="#" class="btn-join" style="cursor: pointer;">快来和我们一起讨论吧🤝</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const USER_CONTENTS_ARRAY = [
+    "叫什么🕊同志！叫少将！",
+    "叫什么少将！叫嫂子！",
+    "叫什么嫂子！快问太子妃安！",
+    "不是我说，浪花算什么太子啊。充其量算皇太孙吧。",
+    "按照我常年混迹我们版的经验，我要给皇太孙投上一票。",
+    "大佬这么多啊！",
+    "Ber，L3和L4到底是什么情况啊！据我所知，这里的哥和太子都是指🌊吧。他俩有奸情？什么时候的事？我怎么不知道？",
+    "看来楼主不知道的事有点多啊😄",
+    "我虽然有点2G但也没那么严重吧！只是🌊和🕊确实有点八竿子打不着了……",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #8楼 匿名：</span><div class='quote-content'>看来楼主不知道的事有点多啊😄</div></div>你出来解释一下！",
+    "我去，那MONOGRAM吃得有点太好了",
+    "我嫉妒",
+    "我贪婪",
+    "不是，L8的结论到底从何而来？总不能他俩长得都还可以然后凑活凑活就给他俩拉郎了？",
+    "趣！这里也有中表！",
+    "这不是很显然的事吗……",
+    "我和你们这些懂得多的人拼了！在本版我最讨厌只说结论不说过程的🙄",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #8楼 匿名：</span><div class='quote-content'>看来楼主不知道的事有点多啊😄</div>我来说一下，这个事相当明显。🕊一直在跟着🌊到处调动。这一般都是正宫的待遇！\n前几年还好，一个在宁波，一个在福建。哇塞，上一届直接演都不演了，直接把🕊调去江西。不是我请问了，江西一个内陆省份，有什么需要🕊这种海军技术人才的地方吗？\n然后俩人现在在上海。这个还合理点，上海好歹沿海。",
+    "并非合理。老花依旧官老爷这一块儿（）\n你市委开会为何次次叫分管海军的领导去？原来🍊只叫一个军队领导，🪳也只叫一个军队领导，🌙更是只叫一个军队领导。怎么到MONOGRAM的时候你cpc军政分离的优良传统就失效了？",
+    "喜马拉雅不得气死😡",
+    "说是地方大员不干涉军区，但实际情况……呵呵",
+    "能在浪花这个真的玩过军地协同的人手下过过几招的军队领导根本不存在吧😲",
+    "老花：领域展开！",
+    "👌我懂你们意思了。但这不就只是开会吗？顶多是器重，和奸情的关系在？",
+    "你版擅长替领导人自作多情的长处又出现了",
+    "我刚审完题，楼主是怎么知道这辆车是🕊少将的？",
+    "我眼睁睁看着他从驾驶位下来登记……\n他那么帅，我不可能认错……",
+    "华点：他那么帅",
+    "划重点（敲黑板）以后要考！",
+    "不是所以呢\n这不就是有个性吗 和奸情的关系在？",
+    "我赌一块比特币 楼主肯定还看到了一个小姑娘",
+    "L31料事如神\n确实有个小姑娘，最多小学二年级，蹦蹦跳跳地从后座下来了，又从门岗进去了",
+    "楼主你猜这是谁的孩子",
+    "楼主你猜这是谁的孩子",
+    "楼主你猜这是谁的孩子",
+    "不会是MONOGRAM吧……",
+    "确实是🌊的",
+    "他都四十多了，孩子这么小？",
+    "结婚结得晚呗",
+    "他结婚就是为了要孩子吧",
+    "他老婆是何方神圣？",
+    "政敌夫人的亲戚",
+    "楼上牛逼",
+    "再多的我也不知道了😂\n只能说当初结婚的时候咱们系统里真是惊涛骇浪",
+    "办公室八卦时间到🥁",
+    "这就是为啥他要把👀往死里弄吧",
+    "估计是",
+    "一家不出两个嘛 我能理解",
+    "他和他老婆大概真没啥感情。我前两天去了次八宝山，🍄是直接葬在革命烈士陵区的，单人墓穴。",
+    "怪不得🍄去世的时候老花淡淡的呢，原来不是喜怒不形于色，而是没感情啊",
+    "感天动地战友情（雾）",
+    "照这么说，大家觉得他是gay喽",
+    "没证据",
+    "那奸情不就推翻了？",
+    "不是，但是你会把孩子托付给同事吗？",
+    "也没那么放心同事吧！",
+    "他们是男同事吧！",
+    "这么说来，后座确实有儿童座椅",
+    "沃尔沃车主这一块",
+    "等一下，我才审完题。🕊这个级别没配车吗？怎么开的沃尔沃。要开也是荣威吧。",
+    "我再补充一下，是绿牌的沃尔沃。",
+    "上海人不一直走这种小资路线",
+    "开沃尔沃就算小资吗？有些人别太敏感肌了",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #60楼 匿名：</span><div class='quote-content'>等一下，我才审完题。🕊这个级别没配车吗？怎么开的沃尔沃。要开也是荣威吧。</div>前面说到他小侄女想把车弄成珍珠粉白，可能公家的车不让吧。",
+    "楼上有道理，我跟你混",
+    "🕊是上海人吗？",
+    "应该吧 反正Wikipedia是这样说的",
+    "不是 🕊的Wikipedia和百度百科都不能信啊\n太子妃的维基和百度在33岁前都是空白的 他妈的 相当于33岁突然从石头缝里蹦出来一个人",
+    "一点都查不到吗？",
+    "感觉被洗掉了。",
+    "🌊这么强吗？",
+    "你不能因老花帅气而忽视人家的官职",
+    "怎么说也是轻轻松松捏死我等",
+    "那他俩还挺pay的",
+    "对哦，浪花的父母也不清不楚的",
+    "这么说来，我版之前还讨论过🌊他爸的事",
+    "我去等一下 🌊他爸是不是姓张",
+    "我去",
+    "我去",
+    "等一下，这也不能说明什么吧",
+    "Maybe",
+    "🌊他爸是北京人啊",
+    "去 吓死我了 我还以为呢",
+    "他俩要真是兄弟那我们就太幽默了",
+    "兄弟又怎么了？德国骨科欢迎您❤",
+    "…………沉默震耳欲聋",
+    "小说妹收收味儿吧！这里是中表不是二次元",
+    "如果他俩是兄弟那真是牛逼大发了😇",
+    "请细嗦",
+    "说好了一家只有一个啊 🕊33岁开始出现在公众视野 不是正好是🌊开始掌权的时候",
+    "老花不是很久以前就做到副书记了？",
+    "那也要看他外公是谁啊",
+    "那个姓赵的……？",
+    "去",
+    "不是 这个讨论的问题也太大了吧 简直拉低我们版的平均水平\n感觉一帮人像没看过新闻联播一样\n几年前📷老去世 你们是一点都不关心有谁去了葬礼啊",
+    "收到！我现在就要开始严肃认真考古！",
+    "已严肃认真学习",
+    "你们快去学习 别说话了",
+    "吓到我了",
+    "他们居然真的是兄弟……",
+    "噔噔咚",
+    "不是，那🕊跟随🌊平调是什么意思？",
+    "新时代就是好啊！连太子的弟弟都能当太子妃了！",
+    "……哇\n真是峰回路转",
+    "搞到真的了",
+    "搞到真兄弟了！",
+    "🕊都几岁了？他咋还不结婚？",
+    "少话，照顾小侄女中",
+    "少话，暗恋哥哥中",
+    "史上最夸张的恋哥癖出现了！",
+    "没这个前缀夸张",
+    "恋哥恋到被网友拉郎也是没谁了",
+    "但他俩那些从交过密如果是兄弟就还好啊",
+    "Ber 如果他俩是兄弟 嗑法就要换一个了",
+    "对啊 比如什么弟主内哥主外之类的",
+    "哦天呢 楼上你在说什么",
+    "楼主呢？楼主怎么不见了？",
+    "补课呢 他俩居然是兄弟\n从现在开始 我一天的新闻联播都不会错过",
+    "新闻联播到底有谁在看啊？\n哦原来是我啊 那没事了",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #115楼 匿名：</span><div class='quote-content'>对啊 比如什么弟主内哥主外之类的</div>狠狠同意了 如果是兄弟就不一定是奸情\n但我是说 我只是说\n既然🕊都跟着🌊调来调去了 总归是要帮帮哥哥的忙的吧",
+    "什么忙？生理需求吗？",
+    "我求你了 闭嘴吧神人",
+    "谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1谁是1",
+    "谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0谁是0",
+    "年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼年上牛逼",
+    "年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼年下牛逼",
+    "停！我要看分析！",
+    "别的不说。就举个最基本的例子，你觉得🌊会让阿姨进他卧室吗？",
+    "你别说，MONOGRAM像是有精神洁癖",
+    "我的就是我的是吧？",
+    "当官的占有欲都畸形",
+    "就浪花那个童年 很难不畸形了",
+    "他童年咋了",
+    "Childhood trauma这一块",
+    "他爸前两年还在龙虎榜上挂着呢 01、02年就润出去了 🌊在单亲家庭长大的",
+    "但他的经济条件肯定比大部分单亲家庭都要好",
+    "他外公如果是那谁 那简直了",
+    "在坐你我都为他的成长出过钱是吧",
+    "嘘嘘嘘 不说不说",
+    "他们家好像有正常来路 他外公的兄弟（好像）在加拿大",
+    "感觉人家看不上这点税款呢",
+    "Who knows",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #128楼 匿名：</span><div class='quote-content'>别的不说。就举个最基本的例子，你觉得🌊会让阿姨进他卧室吗？</div>大佬你继续啊，我想看",
+    "总之结论也和大家说了，哪怕🌊不考虑泄密问题，他可能也过不了心里那道坎。\n这个时候我要再说一个肉麻点的话题，你觉得🌊会让别人（保姆）接触自己的贴身衣物吗？\n没可能！他哪怕自己洗都不可能找别人。问题是他有时间吗？所以这又变成了🕊的事？",
+    "醍醐灌顶了老铁",
+    "L144有力气！",
+    "咱们再来说🌊和🍄的女儿，再怎么说小姑娘也上小学了。🌊这几年东调西调，女儿学业怎么办？江西教材和上海教材的差异不用我说了吧。这不可能没人操心。\n一般都是夫人管，但是🌊的夫人去世了。难道让秘书管？秘书可是拿死工资的，🌊敢确定ta会尽心尽力吗？\n孩子教育毕竟是终身大事啊。",
+    "我悟了L115的意思了。就算他俩没奸情，🕊这么多事做下来，地位也和女主人差不多了吧。",
+    "可不是嘛",
+    "我是刚刚刷到帖子的 我好像知道🕊是谁\n是不是👐💡🛡",
+    "是的",
+    "我舅舅的一个同乡，前两年给🕊送过东西，可能也是想攀上🌊（这人是不是📷🌳💧？）\n结果🕊全给退回来了。",
+    "老花是出了名的塞不进东西，你说他弟耳濡目染敢收吗",
+    "况且🕊还是现役，他哪敢伸手啊。",
+    "莫伸手，伸手必被抓",
+    "我看未必，人家哥可是纪委",
+    "他爸是那谁\n你也不想想人家差不差你送的那些东西",
+    "虽然是夸人，但还是匿一下。鸽子的业务能力确实可以，就是对🌊用情太深。",
+    "给大佬递麦",
+    "哈哈😄我不是什么大佬，小不拉子一个。他现在是这边的分部领导。刚从江西调出来的时候，好几个总部争着要🕊，本来上面定好让他去东部战区总部的，结果被他以家庭原因拒了。他下属对他很敬重。之前和那边的一个战友聊天，感觉大家都很欣赏🕊",
+    "那很难得啊。🕊还没到四十吧？这么年轻坐上这个位置还能服众，大概肚子里确实有东西。",
+    "但🕊的勋表也太抽象了。军龄才到个位数，就算他读了硕士再当兵，怎么说都该两位数了。",
+    "楼上，你说的勋表是哪里看的？",
+    "不是楼上。但授勋、还有颁发战斗英雄奖章的时候应该都能看到，你可以翻翻新闻联播。按照pla律令，只要穿常服都应该会佩戴勋表。",
+    "去看了，确实如此。他们一家都不简单呐。",
+    "龙生龙，凤生凤，老鼠的儿子会打洞。\n他们爸妈肯定都是人精，两个人怎么可能差。",
+    "万一智商回归了那不完蛋",
+    "但🕊的功劳还是挺大的吧。除了打仗那会儿外，人家还因公被刺杀了。",
+    "所以呢",
+    "一时分不清你在搞抽象还是在真心发问",
+    "妈妈我再也不玩抽象了！",
+    "小心🌊查出你的妈妈到底是谁！",
+    "我要给楼主补充补充，J-35首次参加比赛，就是在🕊手下拿了连续两届金头盔。喜马拉雅真得感谢他，打仗前给新飞机造势一直在用那两次比赛的素材。",
+    "《军事纪实》敢不敢突然把老张那两届的全程录像放出来",
+    "干什么？吓你一跳吗？",
+    "还是给🌊机会把他弟捧得更高？",
+    "我只是想看……覆面系我吃吃吃……",
+    "哇 还有老吃家",
+    "都说到这儿了，那务必要推荐大家去看《海峡》第二集",
+    "没看过，求省流",
+    "我记得我看过，空战是吧？",
+    "我觉得还蛮难省流的，，，🕊在那里面真是太帅了……",
+    "啊？那里面有鸽子？",
+    "楼上一看就没走心，可以试试放大看J-35飞行员胸口的名字。",
+    "是中间驱离军机那段吗？",
+    "是的，就是那里",
+    "我虽然看不懂，但是这也太他妈帅了。",
+    "都说了覆面系占领世界！",
+    "军事频道在有帅哥的情况下还是挺好看的",
+    "这个看脸的世界……",
+    "这个时候我们cp粉就要堂堂袭来了！",
+    "（躺平）你们来吧！",
+    "《风波》第一集🕊突然受袭那段，🌊直接会也不开了，直接丢下省政府班子十几号人走掉。",
+    "那没办法，事发突然。不管谁受伤老花应该都会这样处置。",
+    "这都不是“会做”，而是“必须做”了。",
+    "是这样啊，铁打的紧急处置流程。就像当年外滩出那么大事，🍊也得从被窝里爬起来开会。",
+    "那怎么说🌊当时摁麦克风的手都在发抖",
+    "他声音倒是很平稳啦 只是接电话的时候拿着听筒的手突然开始抖 后面宣布紧急情况的时候手也抖得厉害",
+    "纯生理反应",
+    "爱……（叹气）",
+    "而且后面去开会的时候感觉恨不得飞过去",
+    "对对对，央视的镜头都晃成啥了，我差点没看清画面里有几个人",
+    "没人觉得秘书姐姐很飒吗？\n踩着细高跟冲进来，然后又踩着细高跟快步跟着领导去开会。业务能力强得一批，领导匆匆忙忙不记得说保密条例，她一边走一边说，还有条不紊……\n天，我小的时候以为自己长大了就会自动变成都市丽人，获得这种工作能力😮‍💨",
+    "我还特地去查了那个条例，秘书姐姐说的和原文一模一样👍",
+    "你们都是放大镜吗？怎么看得这么清楚。那个纪录片我也看了，只觉得全片糊成一片啊。",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #205楼 匿名：</span><div class='quote-content'>你们都是放大镜吗？怎么看得这么清楚。那个纪录片我也看了，只觉得全片糊成一片啊。</div>你忘开4k超高清了吧",
+    "楼上真相了，我看着也蛮清楚的",
+    "还有后面抽烟那段🥵",
+    "看得我流鼻血🩸",
+    "这老头是不是知道自己很帅啊",
+    "他那个时候还不能算老吧！顶多是中年人。",
+    "哦，他还让记者给他抽烟那段打码🥵",
+    "语气像调情哦",
+    "MONOGRAM失态一次被人唠一辈子😂",
+    "他那个时候感觉慌得没边了 已经进入口不择言的范畴",
+    "🌊纯粹在安慰自己弟弟没事",
+    "别太爱了……",
+    "（叹气）想当年我们还以为🕊和🌊没有血缘关系",
+    "楼主放宽心 毕竟维基和百度都没写啦",
+    "那🕊这个跟随老花平调的举动到底在干什么？总不能他哥为他失态一次他就以身相许吧🤔\n未免廉价过头了",
+    "哇，还有人倒贴二婚男？",
+    "这人设也太原耽了🤣渣攻贱受🤣\n要不是你cpc自盘古开天地以来就崆峒 我还以为是喜马拉雅写的剧本吸引年轻人入党呢",
+    "楼上何意味",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #221楼 匿名：</span><div class='quote-content'>哇，还有人倒贴二婚男？</div>看来你很不识货啊。\n🌊这种不乱搞、有前途、长得帅、钱还多的二婚男，很抢手的好吧！",
+    "是鳏夫（指正）",
+    "L224你别走，我真的很好奇为什么大家都说🌊不会乱搞。是有什么铁证吗？",
+    "我也好奇🤨在单位同事每次说到小蜜的事就要拉老花出来溜一圈，以证明世上还是有正常人的。",
+    "这种会拉🌊出来当范本的同事说起八卦来最狠了",
+    "确实，真的听到了很多料😀\n但有些真的很反人性，听多了真的吃不下饭……",
+    "杀人之类的吗？",
+    "那倒没有，但基本都是性相关，比如花柳病、后宫之类的，还有一些情趣玩法。",
+    "这样看的话，可能只是🌊藏得好",
+    "我看未必，他品行哪怕再不端，应该也没这么不堪。他是做这个出身的，怎么会不知道藏东西最好的办法就是没有需要藏起来的东西。",
+    "哦对，我同事还说🌊洁癖很严重，出去开会都喝自己带的水，根本不碰主办方提供的杯子。",
+    "少爷",
+    "可不是嘛，人家一直是少爷。现在是太子，伺候的人多了去了，不差一个暖床的。",
+    "🌊的肺一直有问题。当年在新疆中枪后弹片残留取不干净，反复发炎，所以一直经常吃止痛药。他吃的那类止痛药有减少性欲的副作用。",
+    "啊？他当年这伤这么严重？",
+    "他啥时候受的伤？",
+    "哈哈😄我最喜欢我们版的一问三不知环节",
+    "每期必备保留节目",
+    "别保留节目了😂我也不知道",
+    "我也不知道",
+    "所以说是传统艺能",
+    "那你们估计都很年轻。\n🌊受伤的那个案子当时在网络上很有名，反正你们去翻最高法的案卷，有一个犯罪嫌疑人起诉的时候被叠加妨碍公务、故意伤害、非法储存枪支等等一大堆罪名。",
+    "穿透肺部可是重伤一级……那个犯罪嫌疑人胆子太大了",
+    "案卷说贪了将近十亿人民币，还把钱弄进了境外的地下赌场无法追回。\n估计是知道死期将近，想拖一个人垫背吧",
+    "那🌊点很背了",
+    "确实",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #237楼 匿名：</span><div class='quote-content'>🌊的肺一直有问题。当年在新疆中枪后弹片残留取不干净，反复发炎，所以一直经常吃止痛药。他吃的那类止痛药有减少性欲的副作用。</div>既然经常发炎，怎么不做手术取出来？",
+    "我推测是位置不凑巧所以风险太大了，不如耗着。",
+    "也可能是恢复时间太长了？",
+    "MONOGRAM还在纪委的时候就忙得要死，现在肯定更是。你让他在ICU里躺两天，还不如让我晚饭吃炸鸡。",
+    "那很爱自己了",
+    "不过这对他的家庭也是个好事",
+    "可惜🍄当年走得匆忙，不然现在也是享福。",
+    "享什么福？在家里带孩子吗💀",
+    "🍄当年只是助教，要是回来了，估计就是教授了。她在无人机辅助作战领域做得很风生水起，只是天妒英才。",
+    "命呐……",
+    "她当年可以不去的吧？",
+    "肯定的啊，她老公可是🌊诶",
+    "这么说来，🕊当年也可以不去的？",
+    "要是真不想去，肯定有办法。",
+    "那可是老花，要是他觉得你重要，搞不好连月壤都能送你。",
+    "一针见血了老铁👊🔥",
+    "那这么说来，🌊条件这么好，🕊同志就不考虑结婚了？",
+    "你看他对小侄女的奉献样儿……啧啧啧\n说是他亲生的都不过分😉",
+    "想起本版之前传言小姑娘实际上是🕊私生女 当时大家还不知道这是MONOGRAM的孩子 只是一味感慨🕊对小姑娘太好了 绝对是亲女儿\n加上🕊还没结婚 大家就觉得是私生女",
+    "这传言也太离谱了吧",
+    "这姑娘真是被他宠得无法无天……",
+    "出现了！监控怪！",
+    "我就不说是什么契机了，但是那天路过市委门口，小姑娘在后座上吵着闹着要🕊给她抱进去。",
+    "这个作风不太好看吧",
+    "不是正门口，是那种，侧门。旁边也有居民楼，所以你也不知道到底是不是市政府的车。但是我认识🕊的脸啊！\n差点给我吓死了。\n结果最后🕊还是屈服了，把小姑娘抱了起来……",
+    "去找爸爸吗？",
+    "可能吧",
+    "不然他们去市委干什么啊！",
+    "果然是上海人",
+    "重女轻男这一块",
+    "太子妃还是太超前了",
+    "你们这样叫人家太子妃真的好吗？",
+    "我也可以叫嫂子！我心很诚的！",
+    "为什么不规规矩矩叫人家王爷？",
+    "珍惜可以叫🕊太子妃的时光吧 不然等太子登基后人家就变成天下兵马大元帅了",
+    "最夸张的一集",
+    "万一🕊看到这个版怎么办",
+    "应该不会……罢",
+    "补药，把我的快乐源泉还给我",
+    "楼上冷静，什么事情都没有发生。",
+    "大家咋那么害怕？据本版先前的情报看，🕊人还可以啊。",
+    "他人好，但是浪花护短啊。\n忘了洗得一干二净的33年了？",
+    "万一老花乐意看鸽子被叫嫂子呢？",
+    "我靠这有点猎奇了",
+    "俩人亲兄弟来的，况且🌊没那么恶趣味吧",
+    "我觉得未必^_^",
+    "来点料～",
+    "两人其实没有很多公开资料。但在一些军事纪录片里找找（嚼嚼嚼），你就能发现美味（嚼嚼嚼）\n比如（我要开始施法了）：\n《风波》第四集，🌊去查案子受伤，躺在病房里。要不要放大看看床头柜上的草稿纸上写了什么呢？",
+    "原来是弟弟的名字啊！",
+    "写了几遍呢？原来是一页A4纸啊",
+    "对不起🕊，🌊的爱很拿得出手，我不应该说你廉价🫡",
+    "看来我真的要开始看央视纪录片了",
+    "小小年纪开始学习键政",
+    "来人，给朕把最大的料呈上来",
+    "这个也是纪录片里的吗？",
+    "不是，是有人在景德镇偶遇过他俩",
+    "这不很正常 之前也有人在景点偶遇🌙",
+    "私人行程去哪里都不奇怪",
+    "哦，那你回答一下他俩为啥要有私人行程？还是孩子不在的那种？",
+    "（呃呃啊啊）（痴傻）",
+    "做到他俩这位置上居然还有私人行程？还是太闲了。",
+    "反正老花后面一天就进山调研了🙄💅",
+    "反正鸽子后面一天就进军区开会了🙄💅",
+    "你们不要再这样了！万一以后他们都不出来玩了，我就得挨饿了",
+    "偶遇一次兑水喝三年是吧？",
+    "不是，你退一万步讲，俩人就算真的在谈，偶遇一两次就是极限了。这可是比通讯录还影响恶劣的事啊，我不相信他俩会不注意这一点。",
+    "🌊结过婚了，所以还好。",
+    "完全看不出好在哪里啊😇",
+    "老花结过婚了，那鸽子怎么办？一个人面对腥风血雨吗？而且万一他哥哪天玩腻了，后果岂不是不堪设想……",
+    "连兄弟都做不成了是吧",
+    "等一下，大家为什么都这么笃定他俩在谈",
+    "同意楼主！\n所以还有没有更劲爆的料？不然默认在麦麸🤓",
+    "对呀，退一万步讲，兄弟两个假期一起出游不是很正常吗？",
+    "正常在哪儿？一个鳏夫一个至今未婚。",
+    "那以后正常兄弟也不能一起出去玩了呗？",
+    "问题是他俩明显不是正常兄弟啊🧐",
+    "大侠何出此言",
+    "谁家兄弟贴那么近？还一直有说有笑。",
+    "请把链接狠狠地甩到我脸上🤤",
+    "原来是有的，但是大手子有一直不断的发力。",
+    "欸不对不对，哦对的对的。这才是中表的强权风味🤩",
+    "我倒是看过原视频。整体氛围确实……嗯……难以形容……不过两个人注意到有人打招呼以后就突然变回正常的样子。",
+    "正常兄弟的样子吗？那奸情一词着实很准确了，他俩大概率确实在偷情啊。",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #318楼 匿名：</span><div class='quote-content'>老花结过婚了，那鸽子怎么办？一个人面对腥风血雨吗？而且万一他哥哪天玩腻了，后果岂不是不堪设想……</div>🌊不会亏待他的……这哥们儿一向以对下属好闻名于系统内",
+    "请细嗦",
+    "多看点有他的纪录片就知道了，他原来的部下都做的很不错🫢",
+    "推荐《重庆纪实》哦 里面还能看到非常青涩的🌊 特别锐气 和现在的沉稳不太一样",
+    "他当年也是意气风发啊！刚毕业没几年就做副科长，结果☀把他那么多下属都给弄死了，，，给当年初出茅庐的MONOGRAM差点整ptsd",
+    "这里的死是……真的死吗",
+    "是的 泛指车祸、广告牌掉落、失足落水等🤫",
+    "☀的手段总是这么复古",
+    "搞得现在🌊时刻提防 生怕重蹈覆辙 力求树大根深",
+    "哇，还有老版本结党营私！",
+    "并非老版本🫨",
+    "来人，我要状告御史台秽乱朝政，罪不容诛！",
+    "串台了吧？",
+    "看你们这样说他我都不忍心附和，因为他真的还好，不是很结党营私😦",
+    "同上",
+    "纯路人，他颇有⛰的遗风啊",
+    "⛰还没死呢",
+    "我就说啊。毕竟他办自己部下也是往死里办，没看《严打》有一期统统都是纪委官员吗？",
+    "这是什么时候的节目了？有点年头了吧",
+    "应该是打仗前了。🌊打仗前几个月就不在北京，调到福建了。",
+    "当时做这个调度，喜马拉雅肯定是铁了心要重用他🙂",
+    "现在马后炮了？你版当时还有人说⛰看不起🌊天降紫微星，想把他发配到东南荒芜之地。",
+    "这谁说的啊，说话没带脑子？怎么说都不是明升暗降啊，福建其实挺容易做出成绩的。喜马拉雅自己之前就在那儿。",
+    "反正当时也没多少人知道要打仗，加上🌊确实没有主政地方的经验，很多人觉得⛰在为难他呗🤦‍",
+    "看不懂你喜马拉雅爷爷苦心的人可太多了🤣",
+    "虽然说喜马拉雅一上来就把🌊调到战时后勤最吃紧的地方，但这关过了还有什么人敢质疑🌊的手段？",
+    "⛰煞费苦心啊",
+    "当时一堆人说喜马拉雅要毁掉老花这个天降紫微星 看起来三个臭皮匠未必能顶上一个诸葛亮😅",
+    "总之🌊的福建主政生涯也算有惊无险地结束了",
+    "感觉他还挺厉害的。我两个月前还去了一趟，恢复得不错。",
+    "怎么没人说这是🍋的功劳？",
+    "楼上你先别急 我知道你是🍋唯粉",
+    "没人说🍋姐没做事啊 但是建楼总归还是要打好地基 不然🍋就算有三头六臂 也只能把地基拔了重新造 福建不可能恢复得这么快😇",
+    "怎么可能恢复得不快，只要能挺过打仗，4v那么大一波资源很难喂不肥沿海。",
+    "除非当时有人贪的太多了😌",
+    "然后你就喜提你省前任001亲自摇老部下帮现任001调查你的待遇😍",
+    "补药啊，我下次再也不敢了",
+    "还敢有下次？",
+    "🌊大人好大的官威 吓哭了😭",
+    "我真不行了。咱们版算是见证浪花一路爬上去的，他每一步都是真不容易。",
+    "哎，老花已经今非昔比了啊。🌳和📷都在他手里，做什么不会成功？",
+    "不一定追得到他弟（沧桑点烟🚬）",
+    "楼主你终于回来了！",
+    "悲报！楼主变成cp粉了！",
+    "我去看了眼纪录片 他俩还蛮好嗑的哈哈",
+    "主要长得也很势均力敌吧",
+    "对啊 可惜我们没有进一步证据了 网上更是什么都搜不出来",
+    "🌊可是太子诶",
+    "他的保密真的做的特别好 我们知道的这些都是央视露出来的 央视没说的一概不知",
+    "从这点看，他还蛮有能力的。",
+    "央视你这个大漏勺！再多漏点啊！",
+    "叹气……",
+    "我感觉肯定有知情人士在混迹本版，不过他们也不会说就是了……",
+    "哎，前途渺茫啊……",
+    "楼上乐观点。既然🌊能做出为爱点兵点将让🕊去开会这种事，以后大概率也会出行随访带上他啊。到时候肯定会有更多视频嘛。",
+    "而且🌊大概率会出自传，估计到时候就可以揭晓了。",
+    "那我也不一定看得到啊",
+    "不过他俩倒是给政治家提供了一个新的方向",
+    "啥方向？",
+    "找自己人解决生理需求呗😊还不用担心被走漏风声",
+    "搞这么恶俗？",
+    "都怪喜马拉雅乱点鸳鸯谱！",
+    "⛰根本不是媒婆好吗！",
+    "我不管，他要是不把🌙弄掉，🌊怎么会和👁斗，肯定变成🌙说谁就是谁了嘛。然后🌊哪需要和🍄结婚？",
+    "不兑，这任务最后可能还是会落到🕊头上",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #397楼 匿名：</span><div class='quote-content'>我不管，他要是不把🌙弄掉，🌊怎么会和👁斗，肯定变成🌙说谁就是谁了嘛。然后🌊哪需要和🍄结婚？</div>这么说感觉喜马拉雅好邪恶",
+    "楼上未成年吧，喜马拉雅什么时候当过好人了？",
+    "他还是做了不少实事的。",
+    "感谢楼上保楼之恩",
+    "我说的是实话",
+    "说起来，你们知道谁会给🌊当总理吗？",
+    "不知道，大概率是⛷️",
+    "别搞了，他跟航天系根本就是不能同台好伐",
+    "说点大家不知道的",
+    "我看他和🍋关系还可以",
+    "毕竟是前后任",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #408楼 匿名：</span><div class='quote-content'>我看他和🍋关系还可以</div>表面功夫罢了，你也不看看🌊24年薅了谁下来。",
+    "主要是🌊和🍊、🌙关系都一般吧。怎么可能和🍋关系特别好？",
+    "突然想起来，本版之前还有段时间以为柠檬是太子。",
+    "可人家就是不往中央调啊！",
+    "简中女子就是不如男这一块🤩",
+    "何意味🙄",
+    "进中央干嘛呢？强龙不压地头蛇，有地方舒服吗？",
+    "这不是舒不舒服的问题",
+    "现在也蛮好 估计哪天🍋一动 我们就知道🌊要上去了",
+    "看来大家觉得柠檬姐很有可能辅佐老花呀🧐",
+    "我们也不知道，这不是在猜吗😂",
+    "但🕊肯定是天下兵马大元帅了",
+    "这根本不用讲了，🕊在这块儿遥遥领先",
+    "哪一块儿？以色侍人吗？",
+    "不知道🥺",
+    "关键人家真有实力，海军航空兵出身，还略懂空气动力学，略懂舰艇指挥，略懂陆军集团军指挥……",
+    "略懂的有点多了吧！",
+    "你咋知道的（无恶意，纯好奇）",
+    "回楼上，在我们这个版里：英雄不问出处，八卦不问来处。",
+    "这么夸张？",
+    "这有啥夸张的。自己去看军事纪实吧。20280730的那一期，有专访。",
+    "搞老半天是官方资料来源，估计就是下面人的功劳。",
+    "消息人士说的就准了吗👊",
+    "你们倒是去看勋表啊！战时指挥一等功是跟你开玩笑的吗？",
+    "都说了🌊是这样一个深情男子！也不看看现在谁在坐军队头把交椅，发个章不是轻轻松松。",
+    "那你去看公示吧。反正升上少将前，🕊一直有持续地被提及😃",
+    "那是因为浪花想捞吧！",
+    "<div class='reply-quote'><span class='quote-meta'>引用 #160楼 匿名：</span><div class='quote-content'>哈哈😄我不是什么大佬，小不拉子一个。他现在是这边的分部领导。刚从江西调出来的时候，好几个总部争着要🕊，本来上面定好让他去东部战区总部的，结果被他以家庭原因拒了。他下属对他很敬重。之前和那边的一个战友聊天，感觉大家都很欣赏🕊</div>我都不想解释了 你自己看我引用的内容🫩",
+    "再怎么说，人家的金头盔是切切实实拿到了。",
+    "浪花再怎么筹谋，也不可能收买所有参赛人员吧😙",
+    "🕊还拿了两届，🌊怎么可能都替他筹谋完。",
+    "还有视频为证，你们敢不敢去看🤪",
+    "哪一期？（敲碗）",
+    "《军事纪实》20261219 我忘了专访具体在哪里 但是应该是这一期",
+    "谢谢 现在就去看！"
+];
+
+    // ==================== 匿名头像：按后台身份生成唯一头像 ====================
+    const avatarPool = [
+        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135790.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135823.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135848.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135859.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135880.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135902.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135925.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135941.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135954.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135971.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3135990.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136008.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136025.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136041.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136062.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136085.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136108.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136129.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136150.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136172.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136195.png",
+        "https://cdn-icons-png.flaticon.com/512/3135/3136218.png"
+    ];
+
+    function getAvatarForUser(userId) {
+        return AVATAR_PHOTO_URLS[(userId - 1) % AVATAR_PHOTO_URLS.length];
+    }
+
+    // 96个真实照片头像。主题偏豆瓣常见的猫、植物、胶片、咖啡、书、街景、食物和风景；每个URL用不同lock固定不同照片。
+    const AVATAR_PHOTO_URLS = [
+        "https://loremflickr.com/96/96/cat?lock=7201",
+        "https://loremflickr.com/96/96/plant?lock=7202",
+        "https://loremflickr.com/96/96/film?lock=7203",
+        "https://loremflickr.com/96/96/coffee?lock=7204",
+        "https://loremflickr.com/96/96/book?lock=7205",
+        "https://loremflickr.com/96/96/flower?lock=7206",
+        "https://loremflickr.com/96/96/street?lock=7207",
+        "https://loremflickr.com/96/96/tea?lock=7208",
+        "https://loremflickr.com/96/96/market?lock=7209",
+        "https://loremflickr.com/96/96/window?lock=7210",
+        "https://loremflickr.com/96/96/record?lock=7211",
+        "https://loremflickr.com/96/96/rain?lock=7212",
+        "https://loremflickr.com/96/96/neon?lock=7213",
+        "https://loremflickr.com/96/96/chair?lock=7214",
+        "https://loremflickr.com/96/96/food?lock=7215",
+        "https://loremflickr.com/96/96/landscape?lock=7216",
+        "https://loremflickr.com/96/96/cat?lock=7217",
+        "https://loremflickr.com/96/96/succulent?lock=7218",
+        "https://loremflickr.com/96/96/film-camera?lock=7219",
+        "https://loremflickr.com/96/96/latte?lock=7220",
+        "https://loremflickr.com/96/96/library?lock=7221",
+        "https://loremflickr.com/96/96/rose?lock=7222",
+        "https://loremflickr.com/96/96/alley?lock=7223",
+        "https://loremflickr.com/96/96/teapot?lock=7224",
+        "https://loremflickr.com/96/96/noodle?lock=7225",
+        "https://loremflickr.com/96/96/balcony?lock=7226",
+        "https://loremflickr.com/96/96/vinyl?lock=7227",
+        "https://loremflickr.com/96/96/umbrella?lock=7228",
+        "https://loremflickr.com/96/96/sign?lock=7229",
+        "https://loremflickr.com/96/96/bench?lock=7230",
+        "https://loremflickr.com/96/96/dumpling?lock=7231",
+        "https://loremflickr.com/96/96/mountain?lock=7232",
+        "https://loremflickr.com/96/96/kitten?lock=7233",
+        "https://loremflickr.com/96/96/potted-plant?lock=7234",
+        "https://loremflickr.com/96/96/analog?lock=7235",
+        "https://loremflickr.com/96/96/espresso?lock=7236",
+        "https://loremflickr.com/96/96/notebook?lock=7237",
+        "https://loremflickr.com/96/96/tulip?lock=7238",
+        "https://loremflickr.com/96/96/city?lock=7239",
+        "https://loremflickr.com/96/96/tea-cup?lock=7240",
+        "https://loremflickr.com/96/96/fruit?lock=7241",
+        "https://loremflickr.com/96/96/curtain?lock=7242",
+        "https://loremflickr.com/96/96/cassette?lock=7243",
+        "https://loremflickr.com/96/96/rainy-street?lock=7244",
+        "https://loremflickr.com/96/96/lantern?lock=7245",
+        "https://loremflickr.com/96/96/sofa?lock=7246",
+        "https://loremflickr.com/96/96/breakfast?lock=7247",
+        "https://loremflickr.com/96/96/lake?lock=7248",
+        "https://loremflickr.com/96/96/black-cat?lock=7249",
+        "https://loremflickr.com/96/96/monstera?lock=7250",
+        "https://loremflickr.com/96/96/camera?lock=7251",
+        "https://loremflickr.com/96/96/cafe?lock=7252",
+        "https://loremflickr.com/96/96/paperback?lock=7253",
+        "https://loremflickr.com/96/96/daisy?lock=7254",
+        "https://loremflickr.com/96/96/sidewalk?lock=7255",
+        "https://loremflickr.com/96/96/porcelain?lock=7256",
+        "https://loremflickr.com/96/96/bakery?lock=7257",
+        "https://loremflickr.com/96/96/sunlight?lock=7258",
+        "https://loremflickr.com/96/96/music?lock=7259",
+        "https://loremflickr.com/96/96/rain-window?lock=7260",
+        "https://loremflickr.com/96/96/shopfront?lock=7261",
+        "https://loremflickr.com/96/96/stool?lock=7262",
+        "https://loremflickr.com/96/96/dessert?lock=7263",
+        "https://loremflickr.com/96/96/sea?lock=7264",
+        "https://loremflickr.com/96/96/orange-cat?lock=7265",
+        "https://loremflickr.com/96/96/fern?lock=7266",
+        "https://loremflickr.com/96/96/35mm?lock=7267",
+        "https://loremflickr.com/96/96/coffee-shop?lock=7268",
+        "https://loremflickr.com/96/96/magazine?lock=7269",
+        "https://loremflickr.com/96/96/hydrangea?lock=7270",
+        "https://loremflickr.com/96/96/hutong?lock=7271",
+        "https://loremflickr.com/96/96/green-tea?lock=7272",
+        "https://loremflickr.com/96/96/hotpot?lock=7273",
+        "https://loremflickr.com/96/96/bedroom?lock=7274",
+        "https://loremflickr.com/96/96/album?lock=7275",
+        "https://loremflickr.com/96/96/wet-road?lock=7276",
+        "https://loremflickr.com/96/96/night-market?lock=7277",
+        "https://loremflickr.com/96/96/table?lock=7278",
+        "https://loremflickr.com/96/96/noodles?lock=7279",
+        "https://loremflickr.com/96/96/forest?lock=7280",
+        "https://loremflickr.com/96/96/white-cat?lock=7281",
+        "https://loremflickr.com/96/96/bonsai?lock=7282",
+        "https://loremflickr.com/96/96/photo?lock=7283",
+        "https://loremflickr.com/96/96/milk-tea?lock=7284",
+        "https://loremflickr.com/96/96/bookstore?lock=7285",
+        "https://loremflickr.com/96/96/peony?lock=7286",
+        "https://loremflickr.com/96/96/crosswalk?lock=7287",
+        "https://loremflickr.com/96/96/jasmine-tea?lock=7288",
+        "https://loremflickr.com/96/96/snack?lock=7289",
+        "https://loremflickr.com/96/96/old-window?lock=7290",
+        "https://loremflickr.com/96/96/turntable?lock=7291",
+        "https://loremflickr.com/96/96/raincoat?lock=7292",
+        "https://loremflickr.com/96/96/streetlight?lock=7293",
+        "https://loremflickr.com/96/96/armchair?lock=7294",
+        "https://loremflickr.com/96/96/soup?lock=7295",
+        "https://loremflickr.com/96/96/garden?lock=7296"
+    ];
+
+    // 匿名回应框的100个头像选项；前96个与匿名用户头像池同规模，后4个为补充选择。
+    const LOCAL_AVATAR_CHOICES = [
+        "https://loremflickr.com/96/96/cat?lock=8201",
+        "https://loremflickr.com/96/96/plant?lock=8202",
+        "https://loremflickr.com/96/96/film?lock=8203",
+        "https://loremflickr.com/96/96/coffee?lock=8204",
+        "https://loremflickr.com/96/96/book?lock=8205",
+        "https://loremflickr.com/96/96/flower?lock=8206",
+        "https://loremflickr.com/96/96/street?lock=8207",
+        "https://loremflickr.com/96/96/tea?lock=8208",
+        "https://loremflickr.com/96/96/market?lock=8209",
+        "https://loremflickr.com/96/96/window?lock=8210",
+        "https://loremflickr.com/96/96/record?lock=8211",
+        "https://loremflickr.com/96/96/rain?lock=8212",
+        "https://loremflickr.com/96/96/neon?lock=8213",
+        "https://loremflickr.com/96/96/chair?lock=8214",
+        "https://loremflickr.com/96/96/food?lock=8215",
+        "https://loremflickr.com/96/96/landscape?lock=8216",
+        "https://loremflickr.com/96/96/cat?lock=8217",
+        "https://loremflickr.com/96/96/succulent?lock=8218",
+        "https://loremflickr.com/96/96/film-camera?lock=8219",
+        "https://loremflickr.com/96/96/latte?lock=8220",
+        "https://loremflickr.com/96/96/library?lock=8221",
+        "https://loremflickr.com/96/96/rose?lock=8222",
+        "https://loremflickr.com/96/96/alley?lock=8223",
+        "https://loremflickr.com/96/96/teapot?lock=8224",
+        "https://loremflickr.com/96/96/noodle?lock=8225",
+        "https://loremflickr.com/96/96/balcony?lock=8226",
+        "https://loremflickr.com/96/96/vinyl?lock=8227",
+        "https://loremflickr.com/96/96/umbrella?lock=8228",
+        "https://loremflickr.com/96/96/sign?lock=8229",
+        "https://loremflickr.com/96/96/bench?lock=8230",
+        "https://loremflickr.com/96/96/dumpling?lock=8231",
+        "https://loremflickr.com/96/96/mountain?lock=8232",
+        "https://loremflickr.com/96/96/kitten?lock=8233",
+        "https://loremflickr.com/96/96/potted-plant?lock=8234",
+        "https://loremflickr.com/96/96/analog?lock=8235",
+        "https://loremflickr.com/96/96/espresso?lock=8236",
+        "https://loremflickr.com/96/96/notebook?lock=8237",
+        "https://loremflickr.com/96/96/tulip?lock=8238",
+        "https://loremflickr.com/96/96/city?lock=8239",
+        "https://loremflickr.com/96/96/tea-cup?lock=8240",
+        "https://loremflickr.com/96/96/fruit?lock=8241",
+        "https://loremflickr.com/96/96/curtain?lock=8242",
+        "https://loremflickr.com/96/96/cassette?lock=8243",
+        "https://loremflickr.com/96/96/rainy-street?lock=8244",
+        "https://loremflickr.com/96/96/lantern?lock=8245",
+        "https://loremflickr.com/96/96/sofa?lock=8246",
+        "https://loremflickr.com/96/96/breakfast?lock=8247",
+        "https://loremflickr.com/96/96/lake?lock=8248",
+        "https://loremflickr.com/96/96/black-cat?lock=8249",
+        "https://loremflickr.com/96/96/monstera?lock=8250",
+        "https://loremflickr.com/96/96/camera?lock=8251",
+        "https://loremflickr.com/96/96/cafe?lock=8252",
+        "https://loremflickr.com/96/96/paperback?lock=8253",
+        "https://loremflickr.com/96/96/daisy?lock=8254",
+        "https://loremflickr.com/96/96/sidewalk?lock=8255",
+        "https://loremflickr.com/96/96/porcelain?lock=8256",
+        "https://loremflickr.com/96/96/bakery?lock=8257",
+        "https://loremflickr.com/96/96/sunlight?lock=8258",
+        "https://loremflickr.com/96/96/music?lock=8259",
+        "https://loremflickr.com/96/96/rain-window?lock=8260",
+        "https://loremflickr.com/96/96/shopfront?lock=8261",
+        "https://loremflickr.com/96/96/stool?lock=8262",
+        "https://loremflickr.com/96/96/dessert?lock=8263",
+        "https://loremflickr.com/96/96/sea?lock=8264",
+        "https://loremflickr.com/96/96/orange-cat?lock=8265",
+        "https://loremflickr.com/96/96/fern?lock=8266",
+        "https://loremflickr.com/96/96/35mm?lock=8267",
+        "https://loremflickr.com/96/96/coffee-shop?lock=8268",
+        "https://loremflickr.com/96/96/magazine?lock=8269",
+        "https://loremflickr.com/96/96/hydrangea?lock=8270",
+        "https://loremflickr.com/96/96/hutong?lock=8271",
+        "https://loremflickr.com/96/96/green-tea?lock=8272",
+        "https://loremflickr.com/96/96/hotpot?lock=8273",
+        "https://loremflickr.com/96/96/bedroom?lock=8274",
+        "https://loremflickr.com/96/96/album?lock=8275",
+        "https://loremflickr.com/96/96/wet-road?lock=8276",
+        "https://loremflickr.com/96/96/night-market?lock=8277",
+        "https://loremflickr.com/96/96/table?lock=8278",
+        "https://loremflickr.com/96/96/noodles?lock=8279",
+        "https://loremflickr.com/96/96/forest?lock=8280",
+        "https://loremflickr.com/96/96/white-cat?lock=8281",
+        "https://loremflickr.com/96/96/bonsai?lock=8282",
+        "https://loremflickr.com/96/96/photo?lock=8283",
+        "https://loremflickr.com/96/96/milk-tea?lock=8284",
+        "https://loremflickr.com/96/96/bookstore?lock=8285",
+        "https://loremflickr.com/96/96/peony?lock=8286",
+        "https://loremflickr.com/96/96/crosswalk?lock=8287",
+        "https://loremflickr.com/96/96/jasmine-tea?lock=8288",
+        "https://loremflickr.com/96/96/snack?lock=8289",
+        "https://loremflickr.com/96/96/old-window?lock=8290",
+        "https://loremflickr.com/96/96/turntable?lock=8291",
+        "https://loremflickr.com/96/96/raincoat?lock=8292",
+        "https://loremflickr.com/96/96/streetlight?lock=8293",
+        "https://loremflickr.com/96/96/armchair?lock=8294",
+        "https://loremflickr.com/96/96/soup?lock=8295",
+        "https://loremflickr.com/96/96/garden?lock=8296",
+        "https://loremflickr.com/96/96/cat-portrait?lock=8297",
+        "https://loremflickr.com/96/96/plant-window?lock=8298",
+        "https://loremflickr.com/96/96/film-roll?lock=8299",
+        "https://loremflickr.com/96/96/coffee-cup?lock=8300"
+    ];
+
+    // 匿名回应框文案都在这里改。
+    const REPLY_COMPOSER_TEXT = {
+        title: "匿名回应",
+        quotePlaceholder: "引用楼层",
+        quoteButton: "引用",
+        textareaPlaceholder: "写点什么，万一就火了呢",
+        hint: "内容不会保存，刷新后即消失",
+        sendButton: "发送",
+        avatarTitlePrefix: "选择匿名头像"
+    };
+
+    // 指定显示为“楼主”的楼层序号（1-indexed）
+    const LZ_FLOOR_NUMBERS = new Set([7,9,27,32,58,61,71,79,101,118,127,143,148,168,192,218,243,309,320,326,374,377,379,393,443]);
+    const LZ_AVATAR_URL = "https://loremflickr.com/96/96/tea,book,window?lock=9999";
+
+    const EXPECTED_TOTAL = 443;   // 与数组长度保持一致
+    const PAGE_SIZE = 20;
+    const ANONYMOUS_NAME = "匿名";
+    const ANONYMOUS_AVATAR = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+    // 处理内容数组：确保长度为443
+    let finalContents = [...USER_CONTENTS_ARRAY];
+    if (finalContents.length < EXPECTED_TOTAL) {
+        for (let i = finalContents.length; i < EXPECTED_TOTAL; i++) {
+            finalContents.push(`【待补充】第${i+1}条回复内容`);
+        }
+        console.warn(`您的内容数组只有 ${USER_CONTENTS_ARRAY.length} 条，已自动用占位文本补充至 ${EXPECTED_TOTAL} 条。请替换成真实内容。`);
+    } else if (finalContents.length > EXPECTED_TOTAL) {
+        finalContents = finalContents.slice(0, EXPECTED_TOTAL);
+        console.warn(`您的内容数组有 ${USER_CONTENTS_ARRAY.length} 条，已截取前 ${EXPECTED_TOTAL} 条。`);
+    }
+
+    // 公示栏文字都在这里修改；insertAfterOriginalFloor 表示插在原始楼层之后。
+    const PUBLIC_NOTICE_CONFIG = [
+        {
+            insertAfterOriginalFloor: 223,
+            author: "站务公示",
+            badge: "公示栏",
+            content: "“钱快来找我（#222）”已被“开心果真好吃（楼主）”移出脆皮肠生态观察站"
+        },
+        {
+            insertAfterOriginalFloor: 414,
+            author: "站务公示",
+            badge: "公示栏",
+            content: "“江枫旧年（#413）”已被“开心果真好吃（楼主）”移出脆皮肠生态观察站"
+        }
+    ];
+
+    // 96个固定后台用户：页面仍显示匿名，头像和发言归属按这里的身份区分。
+    const USER_PROFILES = [
+        { userId: 1, name: "金头盔考据员", keywords: ["J-35","金头盔","飞行员","纪录片","4k","超高清","勋表","授勋","奖章"] },
+        { userId: 2, name: "江湖档案袋", keywords: ["公示","维基","百度","新闻联播","资料","翻翻","哪里看","提及"] },
+        { userId: 3, name: "珍珠粉白车友", keywords: ["沃尔沃","珍珠粉白","配车","荣威","车","侧门","正门口"] },
+        { userId: 4, name: "太子妃保安", keywords: ["嫂子","太子妃","少将","正宫","待遇","叫"] },
+        { userId: 5, name: "浪花事业粉", keywords: ["🌊","老花","赵临渊","MONOGRAM","北京","二婚男","有前途"] },
+        { userId: 6, name: "鸽子事业粉", keywords: ["🕊","鸽子","张溟安","上海","海军","技术人才","少将"] },
+        { userId: 7, name: "喜马拉雅观察员", keywords: ["⛰","喜马拉雅","谈景山","造势","素材","邪恶"] },
+        { userId: 8, name: "福建地基工", keywords: ["福建","宁波","江西","东部战区","总部","调动","调来调去"] },
+        { userId: 9, name: "柠檬路人", keywords: ["🍋","柠檬","唯粉","没做事","关系还可以"] },
+        { userId: 10, name: "月亮清算组", keywords: ["🌙","谢敏飞","弄掉","和👁斗"] },
+        { userId: 11, name: "橙子补番人", keywords: ["🍊","陈晨","半只橙子","番外"] },
+        { userId: 12, name: "吃瓜审题组", keywords: ["审题","等一下","才审完题","怎么知道","如题"] },
+        { userId: 13, name: "楼上复读机", keywords: ["楼上","同意楼主","狠狠同意","有道理","真相了","牛逼"] },
+        { userId: 14, name: "比特币赌徒", keywords: ["赌","比特币","肯定","小姑娘","孩子"] },
+        { userId: 15, name: "卧室边界派", keywords: ["卧室","阿姨","弟主内哥主外","主内","主外"] },
+        { userId: 16, name: "医药冷知识", keywords: ["肺","中枪","弹片","发炎","止痛药","副作用","手术"] },
+        { userId: 17, name: "cp雷达", keywords: ["cp","奸情","麦麸","为爱","随访","视频"] },
+        { userId: 18, name: "系统内朋友", keywords: ["下属","战友","分部领导","敬重","欣赏","系统内"] },
+        { userId: 19, name: "问号制造机", keywords: ["？","吗","怎么","为什么","咋","谁"] },
+        { userId: 20, name: "冷静旁观者", keywords: ["冷静","没有发生","乐观点","放宽心","不堪设想"] },
+        { userId: 21, name: "大胆结论派", keywords: ["明显","演都不演","默认","肯定","大概率"] },
+        { userId: 22, name: "细节放大镜", keywords: ["放大","看得清楚","胸口","名字","糊成一片"] },
+        { userId: 23, name: "规训管理员", keywords: ["保楼","网管","组规","公示栏","移出"] },
+        { userId: 24, name: "碎嘴吐槽王", keywords: ["不是我说","我请问","哇塞","天呢","何意味"] },
+        { userId: 25, name: "阴谋论纸笔", keywords: ["斗","清算","上面","后果","玩腻"] },
+        { userId: 26, name: "家属院目击者", keywords: ["居民楼","门口","抱了起来","吓死","看到"] },
+        { userId: 27, name: "恋爱脑鉴定师", keywords: ["抢手","不乱搞","长得帅","钱还多","倒贴"] },
+        { userId: 28, name: "引用搬运工", keywords: ["引用 #","大佬","继续","解释"] },
+        { userId: 29, name: "历史线整理员", keywords: ["前几年","上一届","当年","现在","24年"] },
+        { userId: 30, name: "政策文件脸", keywords: ["律令","常服","佩戴","单位","级别"] },
+        { userId: 31, name: "小道消息罐", keywords: ["听说","聊天","料","补充","劲爆"] },
+        { userId: 32, name: "未成年警报", keywords: ["未成年","好人","邪恶"] },
+        { userId: 33, name: "快乐起哄人", keywords: ["哈哈","😄","😇","🤓","🫩","出来"] },
+        { userId: 34, name: "谨慎免责声明", keywords: ["我只是说","不一定","总归","可能"] },
+        { userId: 35, name: "技术流路人", keywords: ["比赛","飞机","技术","素材","造势"] },
+        { userId: 36, name: "普通吃瓜号", keywords: [] },
+        { userId: 37, name: "上海门口路人", keywords: ["上海","门口","单位","经常看到","高调"] },
+        { userId: 38, name: "江西地图册", keywords: ["江西","内陆省份","沿海","合理点"] },
+        { userId: 39, name: "宁波旧闻箱", keywords: ["宁波","前几年","上一届"] },
+        { userId: 40, name: "总部传话筒", keywords: ["总部","上面定好","争着要","家庭原因"] },
+        { userId: 41, name: "军迷放大器", keywords: ["J-35","战时指挥","一等功","参赛人员"] },
+        { userId: 42, name: "视频索引员", keywords: ["视频","哪一期","军事纪实","专访"] },
+        { userId: 43, name: "新闻考古人", keywords: ["新闻联播","公示","升上少将","持续地被提及"] },
+        { userId: 44, name: "家庭关系学", keywords: ["家庭","小侄女","孩子","抱了起来"] },
+        { userId: 45, name: "婚恋分析师", keywords: ["结过婚","二婚","抢手","倒贴","亏待"] },
+        { userId: 46, name: "保守吃瓜派", keywords: ["也不一定","不好说","放宽心","可能"] },
+        { userId: 47, name: "激进嗑糖派", keywords: ["正宫","嫂子","cp粉","麦麸","深情男子"] },
+        { userId: 48, name: "理性辟谣员", keywords: ["没写","证据","消息人士","准了吗"] },
+        { userId: 49, name: "战区观察者", keywords: ["东部战区","军队","头把交椅","系统"] },
+        { userId: 50, name: "语气助燃剂", keywords: ["不是吧","救命","笑死","我不管"] },
+        { userId: 51, name: "敲碗催更号", keywords: ["还有没有","哪一期","敲碗","继续啊"] },
+        { userId: 52, name: "引用纠错员", keywords: ["你自己看","引用的内容","我都不想解释"] },
+        { userId: 53, name: "战友聊天号", keywords: ["战友","聊天","敬重","欣赏"] },
+        { userId: 54, name: "职场逻辑人", keywords: ["调出来","分部领导","下属","总部"] },
+        { userId: 55, name: "亲属关系脑", keywords: ["哥","弟","小侄女","哥哥"] },
+        { userId: 56, name: "表情包路过", keywords: ["😙","🤪","👊","😃"] },
+        { userId: 57, name: "短句接话员", keywords: ["谢谢","确实","也对","啊？"] },
+        { userId: 58, name: "长篇分析号", keywords: ["一般都是","相当明显","举个最基本的例子"] },
+        { userId: 59, name: "围观群众甲", keywords: [] },
+        { userId: 60, name: "围观群众乙", keywords: [] },
+        { userId: 61, name: "围观群众丙", keywords: [] },
+        { userId: 62, name: "围观群众丁", keywords: [] },
+        { userId: 63, name: "围观群众戊", keywords: [] },
+        { userId: 64, name: "围观群众己", keywords: [] },
+        { userId: 65, name: "胶片猫猫号", keywords: ["猫", "小猫", "猫猫", "头像"] },
+        { userId: 66, name: "植物窗台号", keywords: ["植物", "窗台", "花", "盆栽"] },
+        { userId: 67, name: "夜宵路边摊", keywords: ["吃", "食用", "搭配", "夜宵"] },
+        { userId: 68, name: "老电影票根", keywords: ["视频", "纪录片", "专访", "素材"] },
+        { userId: 69, name: "雨天咖啡杯", keywords: ["等一下", "我刚", "我看", "现在"] },
+        { userId: 70, name: "书店角落号", keywords: ["解释", "资料", "内容", "看我引用"] },
+        { userId: 71, name: "胡同散步人", keywords: ["门口", "侧门", "居民楼", "路过"] },
+        { userId: 72, name: "海边吹风号", keywords: ["沿海", "海军", "上海", "宁波"] },
+        { userId: 73, name: "茶水间听众", keywords: ["聊天", "听说", "消息", "料"] },
+        { userId: 74, name: "老相册管理员", keywords: ["前几年", "当年", "上一届", "24年"] },
+        { userId: 75, name: "便利店收银台", keywords: ["谢谢", "快问", "我跟你混", "保楼"] },
+        { userId: 76, name: "花市买花号", keywords: ["🌙", "🍋", "🍊", "☀"] },
+        { userId: 77, name: "地铁末班车", keywords: ["调动", "调来调去", "调去", "调出来"] },
+        { userId: 78, name: "厨房窗户边", keywords: ["家庭", "孩子", "小侄女", "哥哥"] },
+        { userId: 79, name: "唱片店路人", keywords: ["我不管", "默认", "麦麸", "cp"] },
+        { userId: 80, name: "旧报纸剪辑", keywords: ["新闻联播", "公示", "百度", "维基"] },
+        { userId: 81, name: "雪糕柜旁边", keywords: ["冷静", "放宽心", "没有发生", "乐观点"] },
+        { userId: 82, name: "办公室绿萝", keywords: ["单位", "下属", "分部", "总部"] },
+        { userId: 83, name: "天桥看热闹", keywords: ["楼上", "牛逼", "真相", "有道理"] },
+        { userId: 84, name: "相机包背带", keywords: ["放大", "看得清楚", "胸口", "名字"] },
+        { userId: 85, name: "猫咖玻璃门", keywords: ["嫂子", "正宫", "太子妃", "深情"] },
+        { userId: 86, name: "雨伞忘带号", keywords: ["怎么", "为什么", "咋", "谁"] },
+        { userId: 87, name: "早餐豆浆杯", keywords: ["哈哈", "😄", "😇", "🤓"] },
+        { userId: 88, name: "街角花坛号", keywords: ["可能", "不一定", "总归", "我只是说"] },
+        { userId: 89, name: "杂志内页号", keywords: ["比赛", "金头盔", "飞行员", "J-35"] },
+        { userId: 90, name: "便利贴便签", keywords: ["补充", "继续", "哪一期", "敲碗"] },
+        { userId: 91, name: "阳台晾衣杆", keywords: [] },
+        { userId: 92, name: "旧小区楼道", keywords: [] },
+        { userId: 93, name: "奶茶封口膜", keywords: [] },
+        { userId: 94, name: "豆友路过甲", keywords: [] },
+        { userId: 95, name: "豆友路过乙", keywords: [] },
+        { userId: 96, name: "豆友路过丙", keywords: [] }
+    ];
+    const PROFILE_BY_ID = new Map(USER_PROFILES.map(user => [user.userId, user]));
+    const CONTEXT_FOLLOW_WORDS = ["楼上", "同意", "确实", "有道理", "真相", "继续", "然后呢", "牛逼", "感谢"];
+
+    function pickUserForContent(content, floorNumber, previousUserId) {
+        const text = String(content);
+        const scoredProfiles = USER_PROFILES.map(profile => {
+            let score = 0;
+            profile.keywords.forEach(keyword => {
+                if (text.includes(keyword)) score += keyword.length > 1 ? 3 : 2;
+            });
+            if (text.includes("引用 #") && profile.userId === 28) score += 4;
+            if (text.length < 14 && [13, 19, 24, 33].includes(profile.userId)) score += 1;
+            if (floorNumber > 220 && [2, 16, 22, 29, 31, 41, 42, 43].includes(profile.userId)) score += 1;
+            if (floorNumber > 350 && [7, 9, 10, 17, 25, 32, 45, 47, 49].includes(profile.userId)) score += 1;
+            if (previousUserId && CONTEXT_FOLLOW_WORDS.some(word => text.includes(word)) && text.length < 45) {
+                const previousProfile = PROFILE_BY_ID.get(previousUserId);
+                const sharedTopic = previousProfile && previousProfile.keywords.some(keyword => keyword && text.includes(keyword));
+                if (sharedTopic) score += 2;
+            }
+            return { profile, score };
+        }).sort((a, b) => b.score - a.score || a.profile.userId - b.profile.userId);
+
+        const bestCandidate = scoredProfiles.find(item => item.score > 0 && item.profile.userId !== previousUserId);
+        if (bestCandidate) {
+            return bestCandidate.profile.userId;
+        }
+
+        const fallbackIds = [12, 13, 19, 20, 21, 24, 31, 33, 34, 36, 46, 50, 51, 56, 57, 59, 60, 61, 62, 63, 64, 69, 75, 81, 83, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96];
+        for (let i = 0; i < fallbackIds.length; i++) {
+            const id = fallbackIds[(floorNumber + i) % fallbackIds.length];
+            if (id !== previousUserId) return id;
+        }
+        return 64;
+    }
+
+    function createNotice(noticeConfig) {
+        return {
+            id: noticeConfig.insertAfterOriginalFloor + 0.5,
+            userId: null,
+            author: noticeConfig.author,
+            badge: noticeConfig.badge,
+            content: noticeConfig.content,
+            isSystem: true,
+            isLzFloor: false,
+            avatar: "https://loremflickr.com/96/96/notice,board,china?lock=1200",
+            likeCount: makeLikeCount(noticeConfig.content, noticeConfig.insertAfterOriginalFloor, false)
+        };
+    }
+
+    function makeLikeCount(content, floorNumber, isLzFloor) {
+        const text = String(content);
+        let hash = floorNumber * 29 + text.length * 7;
+        for (let i = 0; i < text.length; i++) {
+            hash = (hash + text.charCodeAt(i) * (i + 3)) % 9973;
+        }
+        let count = 3 + (hash % 96);
+        if (isLzFloor) count += 35 + (floorNumber % 18);
+        if (text.includes("J-35") || text.includes("金头盔") || text.includes("嫂子") || text.includes("正宫")) count += 18;
+        if (text.includes("引用 #")) count += 8;
+        return count;
+    }
+
+    function renderLikeButton(comment) {
+        const likedClass = comment.liked ? " liked" : "";
+        return `<button class="like-btn${likedClass}" data-id="${comment.id}" type="button">赞 <span>${comment.likeCount || 0}</span></button>`;
+    }
+
+    // ==================== 构建评论数组 + 固定用户身份 ====================
+    let rawComments = [];
+    let previousUserId = null;
+
+    finalContents.forEach((content, contentIndex) => {
+        const floorNumber = contentIndex + 1;
+        const isLzFloor = LZ_FLOOR_NUMBERS.has(floorNumber);
+        const userId = isLzFloor ? 0 : pickUserForContent(content, floorNumber, previousUserId);
+        if (!isLzFloor) previousUserId = userId;
+        rawComments.push({
+            id: floorNumber,
+            userId: userId,
+            content: content,
+            isSystem: false,
+            isLzFloor: isLzFloor,
+            sourceFloor: floorNumber,
+            avatar: isLzFloor ? LZ_AVATAR_URL : getAvatarForUser(userId),
+            likeCount: makeLikeCount(content, floorNumber, isLzFloor),
+            liked: false
+        });
+    });
+
+    PUBLIC_NOTICE_CONFIG.forEach(noticeConfig => {
+        rawComments.push(createNotice(noticeConfig));
+    });
+
+    // 按 id 排序
+    rawComments.sort((a,b) => a.id - b.id);
+    let currentData = [...rawComments];
+    let selectedLocalAvatarIndex = 0;
+
+    // 分页逻辑
+    let currentPage = 1;
+    function totalPages() {
+        return Math.ceil(currentData.length / PAGE_SIZE);
+    }
+    function getCurrentPageComments() {
+        const start = (currentPage-1) * PAGE_SIZE;
+        return currentData.slice(start, start+PAGE_SIZE);
+    }
+
+    // 渲染楼层（加强版引用支持）
+    function renderComments() {
+        const container = document.getElementById('commentsContainer');
+        const pageComments = getCurrentPageComments();
+        if (pageComments.length === 0) {
+            container.innerHTML = '<div style="padding:40px;text-align:center;">暂无楼层</div>';
+            return;
+        }
+        const globalStartIdx = (currentPage-1) * PAGE_SIZE + 1;
+        let html = '';
+
+        pageComments.forEach((comment, idx) => {
+            const floorNum = globalStartIdx + idx;
+            const floorLabel = comment.isSystem ? "公示" : `#${comment.sourceFloor || floorNum}楼`;
+            const isSystem = comment.isSystem === true;
+
+            if (isSystem) {
+                html += `
+                    <div class="comment-item notice-item" data-id="${comment.id}">
+                        <div class="comment-avatar">
+                            <img src="${comment.avatar}" onerror="this.src='https://picsum.photos/48'">
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-info">
+                                <span class="comment-author">${escapeHtml(comment.author || "站务公示")} <span class="system-badge">${escapeHtml(comment.badge || "公示栏")}</span></span>
+                                <span class="comment-floor">${floorLabel}</span>
+                            </div>
+                            <div class="comment-text">${escapeHtml(comment.content)}</div>
+                            <div class="comment-actions">${renderLikeButton(comment)}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const displayName = comment.isLzFloor ? "匿名 · 楼主" : ANONYMOUS_NAME;
+                
+                const contentHtml = formatCommentContent(comment.content);
+
+                html += `
+                    <div class="comment-item" data-id="${comment.id}">
+                        <div class="comment-avatar">
+                            <img src="${comment.avatar}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-info">
+                                <span class="comment-author">${displayName}</span>
+                                <span class="comment-floor">${floorLabel}</span>
+                            </div>
+                            <div class="comment-text">${contentHtml}</div>
+                            <div class="comment-actions">${renderLikeButton(comment)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        container.innerHTML = html;
+        if (currentPage === totalPages()) {
+            container.insertAdjacentHTML('beforeend', renderReplyComposer());
+        }
+        bindInteractiveControls();
+    }
+
+    function renderReplyComposer() {
+        const avatarButtons = LOCAL_AVATAR_CHOICES.map((avatar, index) => `
+            <button class="avatar-choice ${index === selectedLocalAvatarIndex ? 'selected' : ''}" data-avatar-index="${index}" type="button" title="${REPLY_COMPOSER_TEXT.avatarTitlePrefix}${index + 1}">
+                <img src="${avatar}" alt="匿名头像${index + 1}">
+            </button>
+        `).join('');
+
+        return `
+            <div class="reply-composer" id="replyComposer">
+                <div class="reply-composer-title">${escapeHtml(REPLY_COMPOSER_TEXT.title)}</div>
+                <div class="avatar-picker">${avatarButtons}</div>
+                <div class="composer-tools">
+                    <input type="number" id="quoteFloorInput" min="1" placeholder="${escapeHtml(REPLY_COMPOSER_TEXT.quotePlaceholder)}">
+                    <button class="tool-btn" id="quoteFloorBtn" type="button">${escapeHtml(REPLY_COMPOSER_TEXT.quoteButton)}</button>
+                </div>
+                <textarea class="reply-input" id="replyInput" placeholder="${escapeHtml(REPLY_COMPOSER_TEXT.textareaPlaceholder)}"></textarea>
+                <div class="composer-footer">
+                    <span class="composer-hint">${escapeHtml(REPLY_COMPOSER_TEXT.hint)}</span>
+                    <button class="send-btn" id="sendReplyBtn" type="button">${escapeHtml(REPLY_COMPOSER_TEXT.sendButton)}</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function bindInteractiveControls() {
+        document.querySelectorAll('.like-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const comment = currentData.find(item => String(item.id) === btn.getAttribute('data-id'));
+                if (!comment) return;
+                comment.liked = !comment.liked;
+                comment.likeCount += comment.liked ? 1 : -1;
+                btn.classList.toggle('liked', comment.liked);
+                const countSpan = btn.querySelector('span');
+                if (countSpan) countSpan.innerText = comment.likeCount;
+            });
+        });
+
+        document.querySelectorAll('.avatar-choice').forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedLocalAvatarIndex = parseInt(btn.getAttribute('data-avatar-index'), 10) || 0;
+                document.querySelectorAll('.avatar-choice').forEach(item => item.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        const quoteBtn = document.getElementById('quoteFloorBtn');
+        const quoteInput = document.getElementById('quoteFloorInput');
+        const replyInput = document.getElementById('replyInput');
+        const sendBtn = document.getElementById('sendReplyBtn');
+
+        if (quoteBtn && quoteInput && replyInput) {
+            quoteBtn.addEventListener('click', () => {
+                const floor = parseInt(quoteInput.value, 10);
+                const comment = currentData.find(item => !item.isSystem && item.sourceFloor === floor);
+                if (!comment) {
+                    quoteInput.focus();
+                    return;
+                }
+                const quoteText = stripHtml(comment.content).slice(0, 180);
+                const quoteBlock = `<div class='reply-quote'><span class='quote-meta'>引用 #${floor}楼 匿名：</span><div class='quote-content'>${quoteText}</div></div>`;
+                replyInput.value = quoteBlock + replyInput.value;
+                replyInput.focus();
+            });
+        }
+
+        if (sendBtn && replyInput) {
+            sendBtn.addEventListener('click', () => {
+                const content = replyInput.value.trim();
+                if (!content) {
+                    replyInput.focus();
+                    return;
+                }
+                const nextFloor = Math.max(...currentData.filter(item => !item.isSystem).map(item => item.sourceFloor || 0)) + 1;
+                currentData.push({
+                    id: Date.now(),
+                    userId: 10000 + nextFloor,
+                    content: content,
+                    isSystem: false,
+                    isLzFloor: false,
+                    sourceFloor: nextFloor,
+                    avatar: LOCAL_AVATAR_CHOICES[selectedLocalAvatarIndex],
+                    likeCount: 0,
+                    liked: false,
+                    isLocal: true
+                });
+                currentData.sort((a,b) => a.id - b.id);
+                currentPage = totalPages();
+                renderCurrentPage();
+                setTimeout(() => {
+                    const composer = document.getElementById('replyComposer');
+                    if (composer) composer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 0);
+            });
+        }
+    }
+
+    function renderPagination() {
+        const pages = totalPages();
+        const container = document.getElementById('paginationContainer');
+        
+        if (pages <= 1 && currentData.length === 0) {
+            container.innerHTML = '<div class="info-bar">无楼层</div>';
+            return;
+        }
+
+        let html = `<button class="page-btn" data-page="first" ${currentPage===1 ? 'disabled style="opacity:0.5;"' : ''}>最前一页</button>`;
+        html += `<button class="page-btn" data-page="prev" ${currentPage===1 ? 'disabled style="opacity:0.5;"' : ''}>« 上一页</button>`;
+
+        let start = Math.max(1, currentPage - 2);
+        let end = Math.min(pages, currentPage + 2);
+        for (let i = start; i <= end; i++) {
+            html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+        }
+
+        html += `<button class="page-btn" data-page="next" ${currentPage === pages ? 'disabled style="opacity:0.5;"' : ''}>下一页 »</button>`;
+        html += `<button class="page-btn" data-page="last" ${currentPage === pages ? 'disabled style="opacity:0.5;"' : ''}>最后一页</button>`;
+        html += `<span class="info-bar">共 ${pages} 页 / ${currentData.length} 条内容</span>`;
+
+        // 跳转输入框
+        html += `
+            <div style="display:inline-flex; align-items:center; gap:8px; margin-left:15px;">
+                <span style="color:#6c7e94;">跳至</span>
+                <input type="number" id="pageJumpInput" min="1" max="${pages}" value="${currentPage}" 
+                       style="width:60px;padding:5px;border:1px solid #ddd;border-radius:4px;text-align:center;">
+                <span style="color:#6c7e94;">页</span>
+                <button id="pageJumpBtn" class="page-btn" style="padding:5px 12px;">跳转</button>
+            </div>
+        `;
+
+        container.innerHTML = html;
+
+        // 绑定按钮
+        container.querySelectorAll('.page-btn:not(#pageJumpBtn)').forEach(btn => {
+            if (btn.hasAttribute('disabled')) return;
+            btn.addEventListener('click', () => {
+                let target = btn.getAttribute('data-page');
+                if (target === 'first') currentPage = 1;
+                else if (target === 'last') currentPage = pages;
+                else if (target === 'prev' && currentPage > 1) currentPage--;
+                else if (target === 'next' && currentPage < pages) currentPage++;
+                else if (target) currentPage = parseInt(target);
+                renderCurrentPage();
+                scrollToQuestionStart();
+            });
+        });
+
+        // 跳转功能
+        const jumpInput = document.getElementById('pageJumpInput');
+        const jumpBtn = document.getElementById('pageJumpBtn');
+        if (jumpBtn && jumpInput) {
+            const doJump = () => {
+                let target = parseInt(jumpInput.value);
+                if (isNaN(target) || target < 1) target = 1;
+                if (target > pages) target = pages;
+                currentPage = target;
+                renderCurrentPage();
+                scrollToQuestionStart();
+            };
+            jumpBtn.addEventListener('click', doJump);
+            jumpInput.addEventListener('keypress', e => { if (e.key === 'Enter') doJump(); });
+        }
+    }
+    function scrollToQuestionStart() {
+        const question = document.getElementById('threadQuestion');
+        if (question) {
+            question.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function renderCurrentPage() {
+        renderComments();
+        renderPagination();
+        updateStats();
+    }
+
+    function updateStats(pageTotal = totalPages()) {
+        const totalFloorCount = document.getElementById('totalFloorCount');
+        const totalPagesSpan = document.getElementById('totalPagesSpan');
+        if (totalFloorCount) totalFloorCount.innerText = currentData.length;
+        if (totalPagesSpan) totalPagesSpan.innerText = pageTotal;
+    }
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function stripHtml(str) {
+        const div = document.createElement('div');
+        div.innerHTML = String(str);
+        return div.textContent || div.innerText || '';
+    }
+
+    function withLineBreaks(str) {
+        return escapeHtml(str)
+            .replace(/\r?\n/g, '<br>')
+            .replace(/\\n/g, '<br>');
+    }
+
+    function formatCommentContent(content) {
+        const text = String(content);
+        if (!text.includes('reply-quote')) {
+            return withLineBreaks(text);
+        }
+
+        const match = text.match(/^<div class='reply-quote'><span class='quote-meta'>([\s\S]*?)<\/span><div class='quote-content'>([\s\S]*?)<\/div>([\s\S]*)$/);
+        if (!match) {
+            return withLineBreaks(text);
+        }
+
+        const quoteMeta = withLineBreaks(match[1]);
+        const quoteContent = withLineBreaks(match[2]);
+        const replyText = withLineBreaks(match[3].replace(/^<\/div>/, ''));
+
+        return `
+            <div class="reply-quote">
+                <span class="quote-meta">${quoteMeta}</span>
+                <div class="quote-content">${quoteContent}</div>
+            </div>${replyText}
+        `;
+    }
+
+    renderCurrentPage();
+</script>
+</body>
+</html>

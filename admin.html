@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>博客管理工具</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="eyebrow">Archive Studio</p>
+          <h1>博客管理工具</h1>
+        </div>
+        <a class="ghost-button" href="/">返回主页</a>
+      </header>
+
+      <nav class="admin-tabs" aria-label="管理选项">
+        <button data-tab="site" class="active">站点信息</button>
+        <button data-tab="collections">作品集</button>
+        <button data-tab="new-post">新增文章</button>
+        <button data-tab="manage-posts">管理文章</button>
+        <button data-tab="tags">管理标签</button>
+      </nav>
+
+      <section id="tab-site" class="admin-panel active">
+        <h2>站点信息</h2>
+        <div class="form-grid">
+          <label>站点名称<input id="site-title" /></label>
+          <label>副标题<input id="site-subtitle" /></label>
+          <label>名字<input id="profile-name" /></label>
+          <label>身份<input id="profile-role" /></label>
+          <label>坐标<input id="profile-location" /></label>
+          <label>内容<input id="profile-content" /></label>
+          <label>头像<input id="profile-avatar" type="file" accept="image/*" /></label>
+          <label>主色<input id="color-primary" type="color" /></label>
+          <label>强调色<input id="color-accent" type="color" /></label>
+        </div>
+        <label class="wide-label">关于我<textarea id="profile-about" rows="7"></textarea></label>
+        <button id="download-config" class="primary-button">下载 site.config.json</button>
+      </section>
+
+      <section id="tab-collections" class="admin-panel">
+        <h2>作品集</h2>
+        <div class="form-grid">
+          <label>作品集 ID<input id="collection-id" placeholder="media-naranja" /></label>
+          <label>作品集标题<input id="collection-title" placeholder="Media Naranja" /></label>
+          <label>一句简介<input id="collection-summary" /></label>
+          <label>封面<input id="collection-cover" type="file" accept="image/*" /></label>
+        </div>
+        <button id="add-collection" class="primary-button">添加作品集</button>
+        <div id="collection-list" class="manager-list"></div>
+      </section>
+
+      <section id="tab-new-post" class="admin-panel">
+        <h2>新增文章</h2>
+        <div class="form-grid">
+          <label>标题<input id="post-title" /></label>
+          <label>日期<input id="post-date" type="date" /></label>
+          <label>标签<input id="post-tags" placeholder="论坛体, 短篇" /></label>
+          <label>归属作品集<select id="post-collection"></select></label>
+          <label>作品集内顺序<input id="post-order" type="number" min="1" value="1" /></label>
+          <label>可见性<select id="post-visibility"><option value="public">公开</option><option value="private">仅自己可见</option></select></label>
+        </div>
+        <label class="wide-label">摘要<textarea id="post-summary" rows="3"></textarea></label>
+
+        <div class="editor-toolbar" aria-label="文章格式工具">
+          <button data-command="bold" title="加粗">B</button>
+          <button data-command="italic" title="斜体"><i>I</i></button>
+          <button data-command="underline" title="下划线"><u>U</u></button>
+          <button data-command="strikeThrough" title="删除线"><s>S</s></button>
+          <select id="font-size" title="字体大小">
+            <option value="3">正文</option>
+            <option value="4">稍大</option>
+            <option value="5">标题</option>
+            <option value="2">小字</option>
+          </select>
+          <input id="font-color" type="color" title="文字颜色" value="#2f3a4a" />
+          <input id="back-color" type="color" title="背景颜色" value="#fff6df" />
+          <button data-command="insertUnorderedList" title="项目符号">•</button>
+          <button data-command="insertOrderedList" title="编号">1.</button>
+          <button data-command="justifyLeft" title="左对齐">左</button>
+          <button data-command="justifyCenter" title="居中">中</button>
+          <button data-command="justifyRight" title="右对齐">右</button>
+        </div>
+        <div id="post-editor" class="rich-editor" contenteditable="true"></div>
+
+        <div class="preview-layout">
+          <section>
+            <h3>预览</h3>
+            <article id="post-preview" class="article-body"></article>
+          </section>
+          <section>
+            <h3>导出</h3>
+            <button id="download-post-html" class="primary-button">下载文章 HTML</button>
+            <button id="download-posts-json" class="ghost-button">下载 posts.json</button>
+          </section>
+        </div>
+      </section>
+
+      <section id="tab-manage-posts" class="admin-panel">
+        <h2>管理文章</h2>
+        <button id="download-managed-posts" class="primary-button">下载 posts.json</button>
+        <div id="post-manager" class="manager-list"></div>
+      </section>
+
+      <section id="tab-tags" class="admin-panel">
+        <h2>管理标签</h2>
+        <button id="download-tag-posts" class="primary-button">下载 posts.json</button>
+        <div id="tag-manager" class="manager-list"></div>
+      </section>
+    </main>
+    <script type="module" src="/src/admin.js"></script>
+  </body>
+</html>
