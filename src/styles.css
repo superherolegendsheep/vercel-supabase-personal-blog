@@ -16,7 +16,7 @@
 
 body {
   margin: 0;
-  font-family: "Georgia", "Times New Roman", "Songti SC", "SimSun", serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   color: var(--ink);
   background:
     linear-gradient(90deg, rgba(227, 233, 230, 0.82) 0, rgba(227, 233, 230, 0.82) 34%, rgba(251, 251, 248, 0.95) 34%, rgba(251, 251, 248, 0.95) 100%),
@@ -73,7 +73,7 @@ button {
   color: white;
   background: var(--primary);
   font-weight: 700;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .avatar img {
@@ -86,7 +86,7 @@ button {
   margin: 22px 0 6px;
   font-size: 30px;
   line-height: 1.16;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
@@ -109,7 +109,7 @@ button {
   background: rgba(255, 255, 255, 0.46);
   color: var(--ink);
   padding: 0 14px;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .wide-button {
@@ -149,7 +149,7 @@ button {
 .sidebar-section h2 {
   font-size: 14px;
   color: var(--muted);
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-weight: 500;
 }
 
@@ -200,7 +200,7 @@ button {
   font-size: 12px;
   letter-spacing: 0;
   text-transform: uppercase;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .page-head h2,
@@ -273,7 +273,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   margin: 18px 0;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .filters input,
@@ -295,7 +295,7 @@ button {
   gap: 8px;
   flex-wrap: wrap;
   margin: 12px 0;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .tag {
@@ -393,7 +393,7 @@ button {
   color: var(--ink);
   background: rgba(251, 251, 248, 0.88);
   box-shadow: 0 10px 30px rgba(35, 45, 50, 0.1);
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .html-frame {
@@ -465,7 +465,7 @@ button {
   border-radius: 999px;
   color: white;
   background: var(--accent);
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .post-meta {
@@ -475,7 +475,7 @@ button {
   color: var(--muted);
   border-top: 1px solid var(--line);
   padding-top: 16px;
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-size: 13px;
 }
 
@@ -518,7 +518,7 @@ button {
 
 .admin-body {
   background: var(--wash);
-  font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .admin-shell {
