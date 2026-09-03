@@ -13,6 +13,7 @@ const state = {
 };
 
 const app = document.querySelector("#app");
+let shortcutsBound = false;
 
 const escapeHtml = (value) =>
   String(value ?? "")
@@ -66,10 +67,12 @@ function renderSidebar() {
   const profile = state.config.profile;
   const collections = state.config.collections || [];
   return `
-    <aside class="profile-card">
-      <div class="avatar">${profile.avatar ? `<img src="${profile.avatar}" alt="${escapeHtml(profile.name)}" />` : "文"}</div>
+    <aside class="profile-card" data-back-area>
+      <button class="profile-home" data-shortcut-home title="返回主页">
+        <div class="avatar">${profile.avatar ? `<img src="${profile.avatar}" alt="${escapeHtml(profile.name)}" />` : "文"}</div>
+      </button>
       <p class="muted profile-caption">${escapeHtml(profile.caption || profile.role)}</p>
-      <h1>${escapeHtml(profile.name)}</h1>
+      <button class="site-name-link" data-shortcut-home title="返回主页">${escapeHtml(profile.name)}</button>
       <p>${escapeHtml(profile.location)}</p>
       <dl class="profile-facts">
         <div><dt>身份</dt><dd>${escapeHtml(profile.role)}</dd></div>
@@ -268,22 +271,53 @@ async function loadComments(postId) {
   if (!list) return;
   list.innerHTML = `<p class="muted">正在读取评论...</p>`;
   try {
-    const data = await fetch(`/api/comments?postId=${encodeURIComponent(postId)}`).then((res) => res.json());
-    list.innerHTML =
-      data.comments
-        ?.map(
-          (item) => `
-            <article class="comment-item">
-              <strong>${escapeHtml(item.name)}</strong>
-              <time>${new Date(item.createdAt).toLocaleString("zh-CN")}</time>
-              <p>${escapeHtml(item.body)}</p>
-            </article>
-          `
-        )
-        .join("") || `<p class="muted">还没有评论。</p>`;
+    const data = await fetch(`/api/comments?postId=${encodeURIComponent(postId)}`).then(async (res) => {
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.detail || body.error || "comment api failed");
+      return body;
+    });
+    list.innerHTML = renderCommentTree(data.comments || []);
+    bindCommentActions();
   } catch {
     list.innerHTML = `<p class="muted">评论接口暂时不可用。本地预览时需要 Vercel 环境变量连接 Supabase，部署并配置后会正常工作。</p>`;
   }
+}
+
+function renderCommentTree(comments) {
+  if (!comments.length) return `<p class="muted">还没有评论。</p>`;
+  const roots = comments.filter((item) => !item.parentId);
+  const repliesByParent = comments.reduce((groups, item) => {
+    if (item.parentId) {
+      groups[item.parentId] = groups[item.parentId] || [];
+      groups[item.parentId].push(item);
+    }
+    return groups;
+  }, {});
+  return roots.map((item) => renderCommentItem(item, repliesByParent[item.id] || [])).join("");
+}
+
+function renderCommentItem(item, replies = []) {
+  return `
+    <article class="comment-item" id="comment-${escapeHtml(item.id)}">
+      <header class="comment-head">
+        <strong>${escapeHtml(item.name)}</strong>
+        <time>${new Date(item.createdAt).toLocaleString("zh-CN")}</time>
+      </header>
+      <p>${escapeHtml(item.body)}</p>
+      <div class="comment-actions">
+        <button data-reply="${escapeHtml(item.id)}">回复</button>
+        <button class="${item.liked ? "active" : ""}" data-comment-like="${escapeHtml(item.id)}">
+          ${item.liked ? "已喜欢" : "喜欢"} <span>${Number(item.likeCount || 0)}</span>
+        </button>
+      </div>
+      <form class="comment-form reply-form" data-reply-form="${escapeHtml(item.id)}" hidden>
+        <input name="name" placeholder="你的名字" maxlength="40" />
+        <textarea name="body" placeholder="回复 ${escapeHtml(item.name)}" rows="3" required></textarea>
+        <button class="primary-button">发送回复</button>
+      </form>
+      ${replies.length ? `<div class="reply-list">${replies.map((reply) => renderCommentItem(reply, [])).join("")}</div>` : ""}
+    </article>
+  `;
 }
 
 async function submitComment(event) {
@@ -293,7 +327,8 @@ async function submitComment(event) {
   const payload = {
     postId: state.currentPost.id,
     name: formData.get("name"),
-    body: formData.get("body")
+    body: formData.get("body"),
+    parentId: form.dataset.parentId || null
   };
   await fetch("/api/comments", {
     method: "POST",
@@ -302,6 +337,39 @@ async function submitComment(event) {
   });
   form.reset();
   await loadComments(state.currentPost.id);
+}
+
+function bindCommentActions() {
+  document.querySelectorAll("[data-reply]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const form = document.querySelector(`[data-reply-form="${button.dataset.reply}"]`);
+      if (!form) return;
+      form.hidden = !form.hidden;
+      form.dataset.parentId = button.dataset.reply;
+    });
+  });
+  document.querySelectorAll(".reply-form").forEach((form) => {
+    form.addEventListener("submit", submitComment);
+  });
+  document.querySelectorAll("[data-comment-like]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      button.setAttribute("disabled", "disabled");
+      try {
+        const data = await fetch("/api/comment-likes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            postId: state.currentPost.id,
+            commentId: button.dataset.commentLike
+          })
+        }).then((res) => res.json());
+        button.classList.toggle("active", Boolean(data.liked));
+        button.innerHTML = `${data.liked ? "已喜欢" : "喜欢"} <span>${Number(data.count || 0)}</span>`;
+      } finally {
+        button.removeAttribute("disabled");
+      }
+    });
+  });
 }
 
 async function loadLikes(postId) {
@@ -386,11 +454,33 @@ function render() {
     ${renderNotice()}
   `;
   bindEvents();
+  bindGlobalShortcuts();
   loadMarkdownArticles();
   if (state.view === "post") {
     loadComments(state.currentPost.id);
     loadLikes(state.currentPost.id);
   }
+}
+
+function returnHome() {
+  state.view = "home";
+  state.currentPost = null;
+  state.readerFullscreen = false;
+  state.collection = "";
+  state.tag = "";
+  state.query = "";
+  state.page = 1;
+  render();
+}
+
+function bindGlobalShortcuts() {
+  if (shortcutsBound) return;
+  shortcutsBound = true;
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && (state.view !== "home" || state.collection)) {
+      returnHome();
+    }
+  });
 }
 
 function renderNotice() {
@@ -409,11 +499,17 @@ function renderNotice() {
 function bindEvents() {
   document.querySelectorAll("[data-action='home']").forEach((button) => {
     button.addEventListener("click", () => {
-      state.view = "home";
-    state.currentPost = null;
-      state.readerFullscreen = false;
-      render();
+      returnHome();
     });
+  });
+  document.querySelectorAll("[data-shortcut-home]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (state.view !== "home" || state.collection) returnHome();
+    });
+  });
+  document.querySelector("[data-back-area]")?.addEventListener("click", (event) => {
+    const interactive = event.target.closest("button, a, input, textarea, select");
+    if (!interactive && (state.view !== "home" || state.collection)) returnHome();
   });
   document.querySelectorAll("[data-collection]").forEach((button) => {
     button.addEventListener("click", () => {
