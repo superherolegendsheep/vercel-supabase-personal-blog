@@ -25,6 +25,35 @@ body {
   letter-spacing: 0;
 }
 
+body:not(.admin-body) {
+  user-select: none;
+  cursor: default;
+}
+
+body:not(.admin-body) * {
+  user-select: none;
+  cursor: default;
+}
+
+body:not(.admin-body) input,
+body:not(.admin-body) textarea,
+body:not(.admin-body) button,
+body:not(.admin-body) a {
+  user-select: auto;
+}
+
+body:not(.admin-body) input,
+body:not(.admin-body) textarea {
+  cursor: text;
+}
+
+body:not(.admin-body) button,
+body:not(.admin-body) a,
+body:not(.admin-body) .post-card,
+body:not(.admin-body) .collection-card {
+  cursor: pointer;
+}
+
 button,
 input,
 textarea,
@@ -595,6 +624,10 @@ button {
   background: rgba(237, 241, 239, 0.62);
 }
 
+.reply-form[hidden] {
+  display: none;
+}
+
 .reply-list {
   margin: 14px 0 0 22px;
   padding-left: 18px;
@@ -672,11 +705,67 @@ button {
   font-size: 30px;
 }
 
+.admin-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.admin-panel-head h2 {
+  margin: 0;
+}
+
+.file-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 12px;
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.68);
+  font-size: 15px;
+  white-space: nowrap;
+}
+
 .admin-help,
 .admin-steps {
   margin: 0 0 20px;
   color: #5f6b6a;
   line-height: 1.65;
+}
+
+.admin-guide,
+.admin-mini-guide {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--primary);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin: 0 0 22px;
+  color: #5f6b6a;
+  background: rgba(255, 255, 255, 0.52);
+  line-height: 1.7;
+}
+
+.admin-guide p,
+.admin-mini-guide p {
+  margin: 0 0 0.5em;
+}
+
+.admin-guide p:last-child,
+.admin-mini-guide p:last-child {
+  margin-bottom: 0;
+}
+
+.admin-guide code,
+.admin-mini-guide code {
+  border: 1px solid rgba(216, 222, 219, 0.8);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--primary);
+  background: rgba(251, 251, 248, 0.8);
 }
 
 .admin-steps {
@@ -825,7 +914,14 @@ label,
   }
 
   .preview-layout,
-  .manager-item {
+  .manager-item,
+  .admin-panel-head {
     grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .file-pill {
+    width: fit-content;
+    white-space: normal;
   }
 }

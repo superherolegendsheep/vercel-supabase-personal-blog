@@ -74,7 +74,6 @@ function renderSidebar() {
       </button>
       <p class="muted profile-caption">${escapeHtml(profile.caption || profile.role)}</p>
       <button class="site-name-link" data-shortcut-home title="返回主页">${escapeHtml(profile.name)}</button>
-      <p>${escapeHtml(profile.location)}</p>
       <dl class="profile-facts">
         <div><dt>身份</dt><dd>${escapeHtml(profile.role)}</dd></div>
         <div><dt>坐标</dt><dd>${escapeHtml(profile.location)}</dd></div>

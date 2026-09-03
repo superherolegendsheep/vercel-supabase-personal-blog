@@ -23,11 +23,22 @@
         <button data-tab="new-post">新增文章</button>
         <button data-tab="manage-posts">管理文章</button>
         <button data-tab="tags">管理标签</button>
+        <button data-tab="comments">评论管理</button>
       </nav>
 
       <section id="tab-site" class="admin-panel active">
-        <h2>站点信息</h2>
-        <p class="admin-help">修改这里以后，点击下载，把新文件覆盖到 GitHub 的 public/data/site.config.json。</p>
+        <div class="admin-panel-head">
+          <div>
+            <p class="eyebrow">Step 1</p>
+            <h2>站点信息</h2>
+          </div>
+          <span class="file-pill">生成 public/data/site.config.json</span>
+        </div>
+        <div class="admin-guide">
+          <p><strong>这里用来改首页文字、头像、左侧身份栏、颜色。</strong></p>
+          <p>填写完成后点击下面的“下载 site.config.json”，然后把下载到电脑里的文件上传覆盖 GitHub 仓库里的 <code>public/data/site.config.json</code>。</p>
+          <p>头像上传会被写进配置文件，适合小图片；如果图片很大，建议先压缩再上传。</p>
+        </div>
         <div class="form-grid">
           <label>站点名称<input id="site-title" /></label>
           <label>副标题<input id="site-subtitle" /></label>
@@ -45,8 +56,18 @@
       </section>
 
       <section id="tab-collections" class="admin-panel">
-        <h2>作品集</h2>
-        <p class="admin-help">新增作品集后下载 site.config.json。封面图片建议先上传到 public/images，再把路径写进配置。</p>
+        <div class="admin-panel-head">
+          <div>
+            <p class="eyebrow">Step 2</p>
+            <h2>作品集</h2>
+          </div>
+          <span class="file-pill">生成 public/data/site.config.json</span>
+        </div>
+        <div class="admin-guide">
+          <p><strong>这里用来新增、删除作品集，也可以给作品集设置封面。</strong></p>
+          <p>作品集 ID 是给代码识别用的，建议用英文、小写字母和短横线，例如 <code>lu-yuan</code>。作品集标题才是读者看到的名字。</p>
+          <p>修改后同样下载 <code>site.config.json</code>，上传覆盖 GitHub 的 <code>public/data/site.config.json</code>。</p>
+        </div>
         <div class="form-grid">
           <label>作品集 ID<input id="collection-id" placeholder="media-naranja" /></label>
           <label>作品集标题<input id="collection-title" placeholder="Media Naranja" /></label>
@@ -58,12 +79,19 @@
       </section>
 
       <section id="tab-new-post" class="admin-panel">
-        <h2>新增文章</h2>
-        <ol class="admin-steps">
-          <li>已有 HTML 文件时，先把文件上传到 GitHub 的 public/posts。</li>
-          <li>在下面填写标题、标签、作品集和文件名。</li>
-          <li>下载 posts.json 并覆盖 GitHub 的 public/data/posts.json。</li>
-        </ol>
+        <div class="admin-panel-head">
+          <div>
+            <p class="eyebrow">Step 3</p>
+            <h2>新增文章</h2>
+          </div>
+          <span class="file-pill">生成文章 HTML + public/data/posts.json</span>
+        </div>
+        <div class="admin-guide">
+          <p><strong>这里有两种发布方式。</strong></p>
+          <p>方式 A：直接在编辑框里写文章，使用上方格式按钮排版，右侧预览满意后，依次下载“文章 HTML”和“posts.json”。文章 HTML 上传到 <code>public/posts</code>，posts.json 上传覆盖 <code>public/data/posts.json</code>。</p>
+          <p>方式 B：你已经有完整 HTML 文件，就先把那个 HTML 上传到 GitHub 的 <code>public/posts</code>，再在“已有 HTML 文件名”里填写文件名，例如 <code>lu-yuan-shuangfeng.html</code>，最后只下载并上传 <code>posts.json</code>。</p>
+          <p>标签用英文逗号分开，例如 <code>论坛体, 短篇</code>。作品集内顺序数字越小，越靠前。</p>
+        </div>
         <div class="form-grid">
           <label>标题<input id="post-title" /></label>
           <label>日期<input id="post-date" type="date" /></label>
@@ -105,23 +133,66 @@
             <h3>导出</h3>
             <button id="download-post-html" class="primary-button">下载文章 HTML</button>
             <button id="download-posts-json" class="ghost-button">下载 posts.json</button>
-            <p class="muted">如果你已有 HTML 文件，把文件放进 public/posts，再在“已有 HTML 文件名”里填写完整文件名，然后只下载 posts.json。</p>
+            <div class="admin-mini-guide">
+              <p><strong>上传位置：</strong></p>
+              <p>文章 HTML：<code>public/posts</code></p>
+              <p>文章目录：<code>public/data/posts.json</code></p>
+              <p>上传到 GitHub 后，Vercel 会自动更新。</p>
+            </div>
           </section>
         </div>
       </section>
 
       <section id="tab-manage-posts" class="admin-panel">
-        <h2>管理文章</h2>
-        <p class="admin-help">修改顺序、删除、隐藏后，记得下载 posts.json 并上传覆盖原文件。</p>
+        <div class="admin-panel-head">
+          <div>
+            <p class="eyebrow">Step 4</p>
+            <h2>管理文章</h2>
+          </div>
+          <span class="file-pill">生成 public/data/posts.json</span>
+        </div>
+        <div class="admin-guide">
+          <p><strong>这里可以调整文章顺序、删除文章，或者把文章设为仅自己可见。</strong></p>
+          <p>“仅自己可见”不会删除文章文件，只是让首页不展示它。真正删除文章时，建议同时去 GitHub 的 <code>public/posts</code> 里删除对应 HTML 文件。</p>
+          <p>改完后点击“下载 posts.json”，上传覆盖 GitHub 的 <code>public/data/posts.json</code>。</p>
+        </div>
         <button id="download-managed-posts" class="primary-button">下载 posts.json</button>
         <div id="post-manager" class="manager-list"></div>
       </section>
 
       <section id="tab-tags" class="admin-panel">
-        <h2>管理标签</h2>
-        <p class="admin-help">这里会批量改文章里的标签。完成后下载 posts.json。</p>
+        <div class="admin-panel-head">
+          <div>
+            <p class="eyebrow">Step 5</p>
+            <h2>管理标签</h2>
+          </div>
+          <span class="file-pill">生成 public/data/posts.json</span>
+        </div>
+        <div class="admin-guide">
+          <p><strong>这里会批量改所有文章里的标签。</strong></p>
+          <p>例如把 <code>论坛体</code> 改成 <code>论坛体文章</code>，所有使用这个标签的文章都会一起更新。</p>
+          <p>改完后点击“下载 posts.json”，上传覆盖 GitHub 的 <code>public/data/posts.json</code>。</p>
+        </div>
         <button id="download-tag-posts" class="primary-button">下载 posts.json</button>
         <div id="tag-manager" class="manager-list"></div>
+      </section>
+
+      <section id="tab-comments" class="admin-panel">
+        <div class="admin-panel-head">
+          <div>
+            <p class="eyebrow">Supabase</p>
+            <h2>评论管理</h2>
+          </div>
+          <span class="file-pill">Supabase Table Editor</span>
+        </div>
+        <div class="admin-guide">
+          <p><strong>评论不保存在 GitHub 文件里，而是保存在 Supabase 数据库里。</strong></p>
+          <p>查看评论：打开 Supabase 项目，左侧点击 <code>Table Editor</code>，进入 <code>comments</code> 表。</p>
+          <p>删除评论：在 <code>comments</code> 表中找到那条评论，点这一行最左边的选择框，再点页面上的删除按钮。</p>
+          <p>识别回复：普通评论的 <code>parent_id</code> 是空的；回复评论的 <code>parent_id</code> 会指向它回复的那条评论。</p>
+          <p>查看点赞：文章喜欢在 <code>likes</code> 表；评论喜欢在 <code>comment_likes</code> 表。</p>
+          <p>如果评论发不出去，先检查 Vercel 的 <code>Environment Variables</code> 是否有 <code>SUPABASE_URL</code> 和 <code>SUPABASE_SERVICE_ROLE_KEY</code> 或 <code>SUPABASE_PUBLISHABLE_KEY</code>，再确认 Supabase 运行过 <code>supabase/comments.sql</code>。</p>
+        </div>
       </section>
     </main>
     <script type="module" src="/src/admin.js"></script>
