@@ -1,15 +1,15 @@
 {
   "site": {
-    "title": "个人文字站",
+    "title": "老沪老京恋爱中",
     "subtitle": "Archive / Journal"
   },
   "profile": {
     "name": "superherolegendsheep",
-    "role": "LOFTER、微博、UNIFANS同名",
-    "location": "沪京/中美/安平",
-    "content": "文字、存档与一些缓慢整理",
+    "role": "丘比特",
+    "location": "平行宇宙交汇点",
+    "content": "沪京/中美/安平",
     "avatar": "",
-    "about": "这里写完整身份页的关于我。\n可以每句一换行。\n也可以放置创作偏好、阅读说明与联系方式。"
+    "about": "本站可以发送评论、点赞，作者收得到哦❤\n请勿下载、传播，用于盈利目的。\n任何疑问请与作者联系。"
   },
   "theme": {
     "primary": "#48645b",
@@ -18,14 +18,14 @@
   "collections": [
     {
       "id": "media-naranja",
-      "title": "Media Naranja",
-      "summary": "文字作品与二创排版存档",
+      "title": "半只橙子",
+      "summary": "天龙人也会有烦恼吗？",
       "cover": ""
     },
     {
       "id": "lu-yuan",
       "title": "路远",
-      "summary": "路远相关作品存档",
+      "summary": "路远情难尽，恩爱两不疑。",
       "cover": ""
     }
   ]
