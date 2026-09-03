@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poiret+One&display=swap");
+
 :root {
   --primary: #48645b;
   --accent: #8f6a73;
@@ -16,7 +18,8 @@
 
 body {
   margin: 0;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-size: 18px;
   color: var(--ink);
   background:
     linear-gradient(90deg, rgba(227, 233, 230, 0.82) 0, rgba(227, 233, 230, 0.82) 34%, rgba(251, 251, 248, 0.95) 34%, rgba(251, 251, 248, 0.95) 100%),
@@ -73,7 +76,7 @@ button {
   color: white;
   background: var(--primary);
   font-weight: 700;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .avatar img {
@@ -84,9 +87,9 @@ button {
 
 .profile-card h1 {
   margin: 22px 0 6px;
-  font-size: 30px;
+  font-size: 34px;
   line-height: 1.16;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
@@ -109,7 +112,7 @@ button {
   background: rgba(255, 255, 255, 0.46);
   color: var(--ink);
   padding: 0 14px;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .wide-button {
@@ -127,7 +130,7 @@ button {
 .profile-facts {
   margin: 30px 0;
   border-top: 1px solid var(--line);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .profile-facts div {
@@ -147,9 +150,9 @@ button {
 }
 
 .sidebar-section h2 {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-weight: 500;
 }
 
@@ -197,17 +200,17 @@ button {
 .eyebrow {
   margin: 0 0 12px;
   color: var(--primary);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0;
   text-transform: uppercase;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .page-head h2,
 .about-page h2,
 .article-head h2 {
   margin: 0;
-  font-size: clamp(36px, 6vw, 62px);
+  font-size: clamp(42px, 6vw, 70px);
   line-height: 1.12;
   letter-spacing: 0;
   font-weight: 500;
@@ -216,7 +219,7 @@ button {
 .page-head p:last-child {
   max-width: 680px;
   color: #61706e;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.7;
 }
 
@@ -256,7 +259,7 @@ button {
 }
 
 .collection-card strong {
-  font-size: 18px;
+  font-size: 21px;
   font-weight: 500;
 }
 
@@ -273,7 +276,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   margin: 18px 0;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .filters input,
@@ -295,7 +298,7 @@ button {
   gap: 8px;
   flex-wrap: wrap;
   margin: 12px 0;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .tag {
@@ -303,7 +306,7 @@ button {
   display: inline-flex;
   align-items: center;
   color: var(--primary);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .post-grid {
@@ -329,20 +332,20 @@ button {
 }
 
 .post-card h3 {
-  font-size: 25px;
+  font-size: 29px;
   margin: 10px 0 12px;
   line-height: 1.35;
   font-weight: 500;
 }
 
 .post-card h3.title-long {
-  font-size: 21px;
+  font-size: 25px;
   line-height: 1.45;
   max-width: 92%;
 }
 
 .post-card h3.title-short {
-  font-size: 30px;
+  font-size: 34px;
   line-height: 1.22;
 }
 
@@ -361,7 +364,7 @@ button {
 .about-text {
   margin-top: 18px;
   max-width: 760px;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.52;
 }
 
@@ -393,7 +396,7 @@ button {
   color: var(--ink);
   background: rgba(251, 251, 248, 0.88);
   box-shadow: 0 10px 30px rgba(35, 45, 50, 0.1);
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .html-frame {
@@ -452,7 +455,7 @@ button {
 }
 
 .article-body {
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.85;
 }
 
@@ -465,7 +468,12 @@ button {
   border-radius: 999px;
   color: white;
   background: var(--accent);
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-size: 17px;
+}
+
+.like-button.active {
+  background: var(--primary);
 }
 
 .post-meta {
@@ -475,8 +483,8 @@ button {
   color: var(--muted);
   border-top: 1px solid var(--line);
   padding-top: 16px;
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
-  font-size: 13px;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-size: 15px;
 }
 
 .comment-form {
@@ -501,6 +509,7 @@ button {
   border-top: 1px solid var(--line);
   padding: 18px 0;
   line-height: 1.7;
+  font-size: 18px;
 }
 
 .comment-item time {
@@ -518,7 +527,7 @@ button {
 
 .admin-body {
   background: var(--wash);
-  font-family: Papyrus, "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "Poiret One", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
 }
 
 .admin-shell {

@@ -44,7 +44,7 @@ export default async function handler(request, response) {
       if (!postId) return json(response, 400, { error: "missing postId" });
 
       const comments = await supabaseFetch(
-        `comments?select=id,post_id,name,quote,body,created_at&post_id=eq.${encodeURIComponent(postId)}&order=created_at.desc`
+        `comments?select=id,post_id,name,body,created_at&post_id=eq.${encodeURIComponent(postId)}&order=created_at.desc`
       );
 
       return json(response, 200, {
@@ -52,7 +52,6 @@ export default async function handler(request, response) {
           id: item.id,
           postId: item.post_id,
           name: item.name,
-          quote: item.quote,
           body: item.body,
           createdAt: item.created_at
         }))
@@ -63,7 +62,6 @@ export default async function handler(request, response) {
       const input = request.body || {};
       const postId = clean(input.postId, 120);
       const name = clean(input.name || "匿名读者", 40);
-      const quote = clean(input.quote, 500);
       const body = clean(input.body, 3000);
 
       if (!postId || !body) {
@@ -75,7 +73,6 @@ export default async function handler(request, response) {
         body: JSON.stringify({
           post_id: postId,
           name,
-          quote,
           body
         })
       });
@@ -85,7 +82,6 @@ export default async function handler(request, response) {
           id: comment.id,
           postId: comment.post_id,
           name: comment.name,
-          quote: comment.quote,
           body: comment.body,
           createdAt: comment.created_at
         }

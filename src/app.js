@@ -8,7 +8,8 @@ const state = {
   collection: "",
   view: "home",
   currentPost: null,
-  readerFullscreen: false
+  readerFullscreen: false,
+  likes: {}
 };
 
 const app = document.querySelector("#app");
@@ -67,7 +68,7 @@ function renderSidebar() {
   return `
     <aside class="profile-card">
       <div class="avatar">${profile.avatar ? `<img src="${profile.avatar}" alt="${escapeHtml(profile.name)}" />` : "文"}</div>
-      <p class="muted">${escapeHtml(profile.role)}</p>
+      <p class="muted profile-caption">${escapeHtml(profile.caption || profile.role)}</p>
       <h1>${escapeHtml(profile.name)}</h1>
       <p>${escapeHtml(profile.location)}</p>
       <button class="wide-button" data-action="${state.view === "about" ? "home" : "about"}">
@@ -227,7 +228,9 @@ function renderPost() {
               </div>`
             : `<section class="article-body" data-markdown="${escapeHtml(post.file)}"></section>`
         }
-        <button class="like-button" data-like="${post.id}">喜欢 <span>${getLikes(post.id)}</span></button>
+        <button class="like-button ${state.likes[post.id]?.liked ? "active" : ""}" data-like="${post.id}">
+          ${state.likes[post.id]?.liked ? "已喜欢" : "喜欢"} <span>${state.likes[post.id]?.count ?? 0}</span>
+        </button>
         <footer class="post-meta">
           <span>作品集：${escapeHtml(collection?.title || "未归档")}</span>
           ${(post.tags || []).map((tag) => `<span># ${escapeHtml(tag)}</span>`).join("")}
@@ -237,7 +240,6 @@ function renderPost() {
         <h3>评论</h3>
         <form id="comment-form" class="comment-form">
           <input name="name" placeholder="你的名字" maxlength="40" />
-          <textarea name="quote" placeholder="引用范围，可不填" rows="2"></textarea>
           <textarea name="body" placeholder="写下评论" rows="5" required></textarea>
           <button class="primary-button">发送评论</button>
         </form>
@@ -245,15 +247,6 @@ function renderPost() {
       </section>
     </main>
   `;
-}
-
-function getLikes(id) {
-  return Number(localStorage.getItem(`likes:${id}`) || 0);
-}
-
-function likePost(id) {
-  localStorage.setItem(`likes:${id}`, String(getLikes(id) + 1));
-  render();
 }
 
 async function loadMarkdownArticles() {
@@ -289,7 +282,6 @@ async function loadComments(postId) {
             <article class="comment-item">
               <strong>${escapeHtml(item.name)}</strong>
               <time>${new Date(item.createdAt).toLocaleString("zh-CN")}</time>
-              ${item.quote ? `<blockquote>${escapeHtml(item.quote)}</blockquote>` : ""}
               <p>${escapeHtml(item.body)}</p>
             </article>
           `
@@ -307,7 +299,6 @@ async function submitComment(event) {
   const payload = {
     postId: state.currentPost.id,
     name: formData.get("name"),
-    quote: formData.get("quote"),
     body: formData.get("body")
   };
   await fetch("/api/comments", {
@@ -319,6 +310,43 @@ async function submitComment(event) {
   await loadComments(state.currentPost.id);
 }
 
+async function loadLikes(postId) {
+  try {
+    const data = await fetch(`/api/likes?postId=${encodeURIComponent(postId)}`).then((res) => res.json());
+    state.likes[postId] = {
+      count: data.count || 0,
+      liked: Boolean(data.liked)
+    };
+    const button = document.querySelector(`[data-like="${postId}"]`);
+    if (button) {
+      button.classList.toggle("active", state.likes[postId].liked);
+      button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
+    }
+  } catch {
+    state.likes[postId] = { count: 0, liked: false };
+  }
+}
+
+async function toggleLike(postId) {
+  const button = document.querySelector(`[data-like="${postId}"]`);
+  button?.setAttribute("disabled", "disabled");
+  try {
+    const data = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postId })
+    }).then((res) => res.json());
+    state.likes[postId] = {
+      count: data.count || 0,
+      liked: Boolean(data.liked)
+    };
+    button?.classList.toggle("active", state.likes[postId].liked);
+    if (button) button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
+  } finally {
+    button?.removeAttribute("disabled");
+  }
+}
+
 function render() {
   app.innerHTML = `
     ${renderSidebar()}
@@ -326,7 +354,10 @@ function render() {
   `;
   bindEvents();
   loadMarkdownArticles();
-  if (state.view === "post") loadComments(state.currentPost.id);
+  if (state.view === "post") {
+    loadComments(state.currentPost.id);
+    loadLikes(state.currentPost.id);
+  }
 }
 
 function bindEvents() {
@@ -391,7 +422,7 @@ function bindEvents() {
       render();
   });
   document.querySelector("[data-like]")?.addEventListener("click", (event) => {
-    likePost(event.currentTarget.dataset.like);
+    toggleLike(event.currentTarget.dataset.like);
   });
   document.querySelector("[data-reader-fullscreen]")?.addEventListener("click", () => {
     state.readerFullscreen = !state.readerFullscreen;

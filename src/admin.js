@@ -79,6 +79,7 @@ function fillSiteForm() {
   $("#site-title").value = config.site.title || "";
   $("#site-subtitle").value = config.site.subtitle || "";
   $("#profile-name").value = config.profile.name || "";
+  $("#profile-caption").value = config.profile.caption || "";
   $("#profile-role").value = config.profile.role || "";
   $("#profile-location").value = config.profile.location || "";
   $("#profile-content").value = config.profile.content || "";
@@ -92,6 +93,7 @@ function readSiteForm() {
   config.site.title = $("#site-title").value;
   config.site.subtitle = $("#site-subtitle").value;
   config.profile.name = $("#profile-name").value;
+  config.profile.caption = $("#profile-caption").value;
   config.profile.role = $("#profile-role").value;
   config.profile.location = $("#profile-location").value;
   config.profile.content = $("#profile-content").value;
