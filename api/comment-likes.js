@@ -44,7 +44,7 @@ async function supabaseFetch(path, options = {}) {
   return result.json();
 }
 
-async function ipHash(request) {
+function ipHash(request) {
   const ip =
     request.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
     request.headers["x-real-ip"] ||
@@ -54,9 +54,10 @@ async function ipHash(request) {
   return createHash("sha256").update(`${salt}:${ip}`).digest("hex");
 }
 
-async function likeStatus(postId, hash) {
-  const rows = await supabaseFetch(`likes?select=id,ip_hash&post_id=eq.${encodeURIComponent(postId)}`);
-
+async function status(postId, commentId, hash) {
+  const rows = await supabaseFetch(
+    `comment_likes?select=id,ip_hash&post_id=eq.${encodeURIComponent(postId)}&comment_id=eq.${encodeURIComponent(commentId)}`
+  );
   return {
     count: rows.length,
     liked: rows.some((row) => row.ip_hash === hash)
@@ -65,43 +66,43 @@ async function likeStatus(postId, hash) {
 
 export default async function handler(request, response) {
   try {
-    const body = typeof request.body === "string" ? JSON.parse(request.body || "{}") : request.body || {};
-    const postId = clean(request.method === "GET" ? request.query.postId : body.postId, 120);
-    if (!postId) return json(response, 400, { error: "missing postId" });
-
-    const hash = await ipHash(request);
-
-    if (request.method === "GET") {
-      return json(response, 200, await likeStatus(postId, hash));
+    if (request.method !== "POST") {
+      response.setHeader("Allow", "POST");
+      return json(response, 405, { error: "method not allowed" });
     }
 
-    if (request.method === "POST") {
-      const current = await likeStatus(postId, hash);
+    const body = typeof request.body === "string" ? JSON.parse(request.body || "{}") : request.body || {};
+    const postId = clean(body.postId, 120);
+    const commentId = clean(body.commentId, 80);
+    if (!postId || !commentId) return json(response, 400, { error: "postId and commentId are required" });
 
-      if (current.liked) {
-        await supabaseFetch(`likes?post_id=eq.${encodeURIComponent(postId)}&ip_hash=eq.${encodeURIComponent(hash)}`, {
+    const hash = ipHash(request);
+    const current = await status(postId, commentId, hash);
+
+    if (current.liked) {
+      await supabaseFetch(
+        `comment_likes?post_id=eq.${encodeURIComponent(postId)}&comment_id=eq.${encodeURIComponent(commentId)}&ip_hash=eq.${encodeURIComponent(hash)}`,
+        {
           method: "DELETE",
           headers: { Prefer: "return=minimal" }
-        });
-        return json(response, 200, await likeStatus(postId, hash));
-      }
-
-      await supabaseFetch("likes", {
-        method: "POST",
-        body: JSON.stringify({
-          post_id: postId,
-          ip_hash: hash
-        })
-      });
-
-      return json(response, 200, await likeStatus(postId, hash));
+        }
+      );
+      return json(response, 200, await status(postId, commentId, hash));
     }
 
-    response.setHeader("Allow", "GET, POST");
-    return json(response, 405, { error: "method not allowed" });
+    await supabaseFetch("comment_likes", {
+      method: "POST",
+      body: JSON.stringify({
+        post_id: postId,
+        comment_id: commentId,
+        ip_hash: hash
+      })
+    });
+
+    return json(response, 200, await status(postId, commentId, hash));
   } catch (error) {
     return json(response, 500, {
-      error: "like service unavailable",
+      error: "comment like service unavailable",
       detail: error.message
     });
   }

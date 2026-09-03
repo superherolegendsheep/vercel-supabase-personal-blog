@@ -13,11 +13,17 @@ on public.comments (post_id, created_at desc);
 alter table public.comments enable row level security;
 
 drop policy if exists "comments are readable" on public.comments;
+drop policy if exists "comments are insertable" on public.comments;
 
 create policy "comments are readable"
 on public.comments
 for select
 using (true);
+
+create policy "comments are insertable"
+on public.comments
+for insert
+with check (true);
 
 create table if not exists public.likes (
   id uuid primary key default gen_random_uuid(),

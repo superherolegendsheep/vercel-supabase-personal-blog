@@ -30,6 +30,7 @@ async function loadData() {
   ]);
   state.config = await configRes.json();
   state.posts = (await postsRes.json()).filter((post) => post.visibility !== "private");
+  applyRouteFromUrl();
   applyTheme();
   render();
 }
@@ -324,19 +325,37 @@ async function submitComment(event) {
   event.preventDefault();
   const form = event.currentTarget;
   const formData = new FormData(form);
+  const button = form.querySelector("button");
+  button?.setAttribute("disabled", "disabled");
   const payload = {
     postId: state.currentPost.id,
     name: formData.get("name"),
     body: formData.get("body"),
     parentId: form.dataset.parentId || null
   };
-  await fetch("/api/comments", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-  form.reset();
-  await loadComments(state.currentPost.id);
+  try {
+    await fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(async (res) => {
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.detail || body.error || "comment api failed");
+      return body;
+    });
+    form.reset();
+    await loadComments(state.currentPost.id);
+  } catch (error) {
+    const list = document.querySelector("#comment-list");
+    if (list) {
+      list.insertAdjacentHTML(
+        "afterbegin",
+        `<p class="comment-error">评论没有发送成功：${escapeHtml(error.message)}。请确认 Vercel 环境变量和 Supabase 的 comments 表权限。</p>`
+      );
+    }
+  } finally {
+    button?.removeAttribute("disabled");
+  }
 }
 
 function bindCommentActions() {
@@ -462,6 +481,34 @@ function render() {
   }
 }
 
+function routeUrl() {
+  const params = new URLSearchParams();
+  if (state.collection) params.set("collection", state.collection);
+  if (state.view === "post" && state.currentPost) params.set("post", state.currentPost.id);
+  if (state.tag) params.set("tag", state.tag);
+  if (state.page > 1) params.set("page", String(state.page));
+  const query = params.toString();
+  return query ? `/?${query}` : "/";
+}
+
+function updateRoute(method = "push") {
+  const nextUrl = routeUrl();
+  const currentUrl = `${window.location.pathname}${window.location.search}`;
+  if (currentUrl === nextUrl) return;
+  history[method === "replace" ? "replaceState" : "pushState"]({}, "", nextUrl);
+}
+
+function applyRouteFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  state.collection = params.get("collection") || "";
+  state.tag = params.get("tag") || "";
+  state.page = Math.max(1, Number(params.get("page") || 1));
+  const postId = params.get("post");
+  state.currentPost = postId ? state.posts.find((post) => post.id === postId) || null : null;
+  state.view = state.currentPost ? "post" : "home";
+  state.readerFullscreen = false;
+}
+
 function returnHome() {
   state.view = "home";
   state.currentPost = null;
@@ -470,6 +517,7 @@ function returnHome() {
   state.tag = "";
   state.query = "";
   state.page = 1;
+  updateRoute();
   render();
 }
 
@@ -480,6 +528,10 @@ function bindGlobalShortcuts() {
     if (event.key === "Escape" && (state.view !== "home" || state.collection)) {
       returnHome();
     }
+  });
+  window.addEventListener("popstate", () => {
+    applyRouteFromUrl();
+    render();
   });
 }
 
@@ -518,6 +570,7 @@ function bindEvents() {
       state.tag = "";
       state.view = "home";
       state.page = 1;
+      updateRoute();
       render();
     });
   });
@@ -525,6 +578,7 @@ function bindEvents() {
     button.addEventListener("click", () => {
       state.tag = state.tag === button.dataset.tag ? "" : button.dataset.tag;
       state.page = 1;
+      updateRoute();
       render();
     });
   });
@@ -537,16 +591,19 @@ function bindEvents() {
   document.querySelectorAll("[data-page]").forEach((button) => {
     button.addEventListener("click", () => {
       state.page = Number(button.dataset.page);
+      updateRoute();
       render();
     });
   });
   document.querySelector("[data-jump]")?.addEventListener("click", () => {
     state.page = Math.max(1, Number(document.querySelector("#jump-page").value || 1));
+    updateRoute();
     render();
   });
   document.querySelector("#search")?.addEventListener("input", (event) => {
     state.query = event.target.value;
     state.page = 1;
+    updateRoute("replace");
     render();
   });
   document.querySelector("[data-clear]")?.addEventListener("click", () => {
@@ -555,6 +612,7 @@ function bindEvents() {
       state.collection = "";
       state.readerFullscreen = false;
       state.page = 1;
+      updateRoute();
       render();
   });
   document.querySelector("[data-like]")?.addEventListener("click", (event) => {
@@ -575,6 +633,7 @@ function openPost(id) {
   state.currentPost = state.posts.find((post) => post.id === id);
   state.view = "post";
   state.readerFullscreen = false;
+  updateRoute();
   render();
 }
 

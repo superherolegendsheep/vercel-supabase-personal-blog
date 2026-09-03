@@ -513,6 +513,16 @@ button {
   font-size: 15px;
 }
 
+.comment-error {
+  margin: 12px 0;
+  border: 1px solid #9d4b4b;
+  border-radius: 3px;
+  padding: 12px 14px;
+  color: #7b2b2b;
+  background: #fff1ef;
+  line-height: 1.6;
+}
+
 .post-meta {
   display: flex;
   gap: 8px;
