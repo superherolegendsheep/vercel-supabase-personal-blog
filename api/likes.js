@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const json = (response, status, body) => {
   response.statusCode = status;
   response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -45,11 +47,7 @@ async function ipHash(request) {
     request.socket?.remoteAddress ||
     "unknown";
   const salt = process.env.LIKE_HASH_SALT || "personal-blog-like";
-  const bytes = new TextEncoder().encode(`${salt}:${ip}`);
-  const hash = await crypto.subtle.digest("SHA-256", bytes);
-  return Array.from(new Uint8Array(hash))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
+  return createHash("sha256").update(`${salt}:${ip}`).digest("hex");
 }
 
 async function likeStatus(postId, hash) {
@@ -63,7 +61,8 @@ async function likeStatus(postId, hash) {
 
 export default async function handler(request, response) {
   try {
-    const postId = clean(request.method === "GET" ? request.query.postId : request.body?.postId, 120);
+    const body = typeof request.body === "string" ? JSON.parse(request.body || "{}") : request.body || {};
+    const postId = clean(request.method === "GET" ? request.query.postId : body.postId, 120);
     if (!postId) return json(response, 400, { error: "missing postId" });
 
     const hash = await ipHash(request);

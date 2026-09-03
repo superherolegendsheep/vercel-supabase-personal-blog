@@ -71,14 +71,15 @@ function renderSidebar() {
       <p class="muted profile-caption">${escapeHtml(profile.caption || profile.role)}</p>
       <h1>${escapeHtml(profile.name)}</h1>
       <p>${escapeHtml(profile.location)}</p>
-      <button class="wide-button" data-action="${state.view === "about" ? "home" : "about"}">
-        ${state.view === "about" ? "返回主页" : "完整身份页"}
-      </button>
       <dl class="profile-facts">
         <div><dt>身份</dt><dd>${escapeHtml(profile.role)}</dd></div>
         <div><dt>坐标</dt><dd>${escapeHtml(profile.location)}</dd></div>
         <div><dt>内容</dt><dd>${escapeHtml(profile.content)}</dd></div>
       </dl>
+      <section class="sidebar-section about-note">
+        <h2>说明</h2>
+        ${escapeHtml(profile.about).split("\n").map((line) => `<p>${line || "&nbsp;"}</p>`).join("")}
+      </section>
       <section class="sidebar-section">
         <h2>作品集</h2>
         ${collections
@@ -223,6 +224,7 @@ function renderPost() {
         <button class="like-button ${state.likes[post.id]?.liked ? "active" : ""}" data-like="${post.id}">
           ${state.likes[post.id]?.liked ? "已喜欢" : "喜欢"} <span>${state.likes[post.id]?.count ?? 0}</span>
         </button>
+        <p class="like-message" data-like-message></p>
         <footer class="post-meta">
           <span>作品集：${escapeHtml(collection?.title || "未归档")}</span>
           ${(post.tags || []).map((tag) => `<span># ${escapeHtml(tag)}</span>`).join("")}
@@ -304,7 +306,11 @@ async function submitComment(event) {
 
 async function loadLikes(postId) {
   try {
-    const data = await fetch(`/api/likes?postId=${encodeURIComponent(postId)}`).then((res) => res.json());
+    const data = await fetch(`/api/likes?postId=${encodeURIComponent(postId)}`).then(async (res) => {
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.detail || body.error || "like api failed");
+      return body;
+    });
     state.likes[postId] = {
       count: data.count || 0,
       liked: Boolean(data.liked)
@@ -322,18 +328,26 @@ async function loadLikes(postId) {
 async function toggleLike(postId) {
   const button = document.querySelector(`[data-like="${postId}"]`);
   button?.setAttribute("disabled", "disabled");
+  const message = document.querySelector("[data-like-message]");
+  if (message) message.textContent = "";
   try {
     const data = await fetch("/api/likes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ postId })
-    }).then((res) => res.json());
+    }).then(async (res) => {
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.detail || body.error || "like api failed");
+      return body;
+    });
     state.likes[postId] = {
       count: data.count || 0,
       liked: Boolean(data.liked)
     };
     button?.classList.toggle("active", state.likes[postId].liked);
     if (button) button.innerHTML = `${state.likes[postId].liked ? "已喜欢" : "喜欢"} <span>${state.likes[postId].count}</span>`;
+  } catch {
+    if (message) message.textContent = "喜欢功能暂时没有连接成功，请检查 Vercel 环境变量和 Supabase 的 likes 表。";
   } finally {
     button?.removeAttribute("disabled");
   }
@@ -342,7 +356,8 @@ async function toggleLike(postId) {
 function render() {
   app.innerHTML = `
     ${renderSidebar()}
-    ${state.view === "about" ? renderAbout() : state.view === "post" ? renderPost() : renderHome()}
+    ${state.view === "post" ? renderPost() : renderHome()}
+    ${renderNotice()}
   `;
   bindEvents();
   loadMarkdownArticles();
@@ -352,18 +367,25 @@ function render() {
   }
 }
 
+function renderNotice() {
+  const text = state.config.site?.notice;
+  if (!text || localStorage.getItem("siteNoticeAccepted") === "yes") return "";
+  return `
+    <div class="site-notice" role="dialog" aria-modal="true" aria-label="阅读提醒">
+      <div class="notice-panel">
+        <p>${escapeHtml(text)}</p>
+        <button class="notice-confirm" data-notice-confirm>我已知悉</button>
+      </div>
+    </div>
+  `;
+}
+
 function bindEvents() {
   document.querySelectorAll("[data-action='home']").forEach((button) => {
     button.addEventListener("click", () => {
       state.view = "home";
     state.currentPost = null;
       state.readerFullscreen = false;
-      render();
-    });
-  });
-  document.querySelectorAll("[data-action='about']").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.view = "about";
       render();
     });
   });
@@ -421,6 +443,10 @@ function bindEvents() {
     render();
   });
   document.querySelector("#comment-form")?.addEventListener("submit", submitComment);
+  document.querySelector("[data-notice-confirm]")?.addEventListener("click", () => {
+    localStorage.setItem("siteNoticeAccepted", "yes");
+    document.querySelector(".site-notice")?.remove();
+  });
 }
 
 function openPost(id) {

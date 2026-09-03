@@ -27,6 +27,7 @@
 
       <section id="tab-site" class="admin-panel active">
         <h2>站点信息</h2>
+        <p class="admin-help">修改这里以后，点击下载，把新文件覆盖到 GitHub 的 public/data/site.config.json。</p>
         <div class="form-grid">
           <label>站点名称<input id="site-title" /></label>
           <label>副标题<input id="site-subtitle" /></label>
@@ -45,6 +46,7 @@
 
       <section id="tab-collections" class="admin-panel">
         <h2>作品集</h2>
+        <p class="admin-help">新增作品集后下载 site.config.json。封面图片建议先上传到 public/images，再把路径写进配置。</p>
         <div class="form-grid">
           <label>作品集 ID<input id="collection-id" placeholder="media-naranja" /></label>
           <label>作品集标题<input id="collection-title" placeholder="Media Naranja" /></label>
@@ -57,6 +59,11 @@
 
       <section id="tab-new-post" class="admin-panel">
         <h2>新增文章</h2>
+        <ol class="admin-steps">
+          <li>已有 HTML 文件时，先把文件上传到 GitHub 的 public/posts。</li>
+          <li>在下面填写标题、标签、作品集和文件名。</li>
+          <li>下载 posts.json 并覆盖 GitHub 的 public/data/posts.json。</li>
+        </ol>
         <div class="form-grid">
           <label>标题<input id="post-title" /></label>
           <label>日期<input id="post-date" type="date" /></label>
@@ -105,12 +112,14 @@
 
       <section id="tab-manage-posts" class="admin-panel">
         <h2>管理文章</h2>
+        <p class="admin-help">修改顺序、删除、隐藏后，记得下载 posts.json 并上传覆盖原文件。</p>
         <button id="download-managed-posts" class="primary-button">下载 posts.json</button>
         <div id="post-manager" class="manager-list"></div>
       </section>
 
       <section id="tab-tags" class="admin-panel">
         <h2>管理标签</h2>
+        <p class="admin-help">这里会批量改文章里的标签。完成后下载 posts.json。</p>
         <button id="download-tag-posts" class="primary-button">下载 posts.json</button>
         <div id="tag-manager" class="manager-list"></div>
       </section>
