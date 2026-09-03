@@ -1,19 +1,19 @@
 {
   "site": {
     "title": "个人文字站",
-    "subtitle": "Personal Journal"
+    "subtitle": "Archive / Journal"
   },
   "profile": {
     "name": "superherolegendsheep",
     "role": "LOFTER、微博、UNIFANS同名",
     "location": "沪京/中美/安平",
-    "content": "老沪老京恋爱中！",
+    "content": "文字、存档与一些缓慢整理",
     "avatar": "",
     "about": "这里写完整身份页的关于我。\n可以每句一换行。\n也可以放置创作偏好、阅读说明与联系方式。"
   },
   "theme": {
-    "primary": "#3d8f5a",
-    "accent": "#c94f6d"
+    "primary": "#48645b",
+    "accent": "#8f6a73"
   },
   "collections": [
     {
